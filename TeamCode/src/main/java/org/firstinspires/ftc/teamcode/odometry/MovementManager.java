@@ -35,4 +35,53 @@ public class MovementManager {
             return true;
         }
     }
+
+    public boolean goToPoint(double x, double y, double r, double p, double error){
+        Pose currentPose = gps.getRobotPose();
+
+        double deltaX = x - currentPose.getX();
+        double deltaY = y - currentPose.getY();
+
+        double distance = Math.hypot(deltaX, deltaY);
+
+        if (distance > error){
+            fieldDrive(deltaX,deltaY,r,p);
+            return false;
+        }
+
+        robot.chassis.stop();
+        return true;
+    }
+
+    public void fieldDrive(double x, double y, double r, double p){
+        double heading = robot.gyro.getHeading();
+
+        double deltaY = getXComponent(heading, y) + getYComponent(heading, x);
+        double deltaX = getXComponent(heading, x) + getYComponent(heading, y);
+
+        double yp = Range.clip(deltaY, -1, 1);
+        double xp = Range.clip(deltaX, -1, 1);
+
+        robot.chassis.move(xp, yp, r, p);
+    }
+
+    /**
+     * Gets the forward (y) component of a vector with a certain angle in degrees and a magnitude
+     * @param degrees The angle to use
+     * @param magnitude The amount of distance traveled at that angle
+     * @return The amount of distance traveled along the Y axis
+     */
+    private double getYComponent(double degrees, double magnitude){
+        return Math.sin(Math.toRadians(degrees)) * magnitude;
+    }
+
+    /**
+     * Gets the rightward (X) component of a vector with a certain angle in degrees and a magnitude
+     * @param degrees The angle to use
+     * @param magnitude The amount of distance traveled at that angle
+     * @return The amount of distance traveled along the X axis
+     */
+    private double getXComponent(double degrees, double magnitude){
+        return Math.cos(Math.toRadians(degrees)) * magnitude;
+    }
 }
