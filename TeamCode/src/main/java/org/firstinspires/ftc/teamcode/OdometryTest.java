@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
@@ -13,6 +14,7 @@ public class OdometryTest extends LinearOpMode {
     public RobotHardware robot = new RobotHardware(gt);
     public OdometryBase gps = new OdometryBase(robot);
     Thread gpsThread = new Thread(gps);
+    MovementManager move = new MovementManager(robot, gt, gps);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,10 +24,11 @@ public class OdometryTest extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        robot.chassis.move(1, 0, 0, .75);
-        sleep(3000);
-        robot.chassis.move(0, 1, 0, .75);
-        sleep(3000);
+        while (!move.goToPoint(-37, 27, 0, .75, 1)){
+
+        }
+
+
         robot.chassis.stop();
         gps.stop();
     }

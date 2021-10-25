@@ -39,7 +39,7 @@ public class FieldOrientedDrive extends OpMode {
             power = gamepad1.right_trigger;
 
         move.goToPoint(pose.getX() + gamepad1.left_stick_x * 2,
-                pose.getY() - gamepad1.right_stick_y * 2,
+                pose.getY() - gamepad1.left_stick_y * 2,
                 gamepad1.right_stick_x, power, 0.1);
 
         if (gamepad1.b){

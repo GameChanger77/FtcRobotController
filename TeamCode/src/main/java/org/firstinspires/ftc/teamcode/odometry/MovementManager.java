@@ -44,19 +44,21 @@ public class MovementManager {
 
         double distance = Math.hypot(deltaX, deltaY);
 
+        fieldDrive(deltaX,deltaY,r,p);
+
         if (distance > error){
-            fieldDrive(deltaX,deltaY,r,p);
             return false;
         }
 
-        robot.chassis.stop();
+        if(r == 0)
+            robot.chassis.stop();
         return true;
     }
 
     public void fieldDrive(double x, double y, double r, double p){
         double heading = robot.gyro.getHeading();
 
-        double deltaY = getXComponent(heading, y) + getYComponent(heading, x);
+        double deltaY = getXComponent(heading, y) - getYComponent(heading, x);
         double deltaX = getXComponent(heading, x) + getYComponent(heading, y);
 
         double yp = Range.clip(deltaY, -1, 1);
