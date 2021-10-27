@@ -22,6 +22,7 @@ public class TestChassis extends OpMode {
         robot.init(hardwareMap);
         gps.init(hardwareMap);
         gpsThread.start();
+
         gt.addData("/> STATUS", "INIT COMPLETE");
         gt.print();
     }

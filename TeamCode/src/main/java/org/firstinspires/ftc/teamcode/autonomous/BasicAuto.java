@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Autonomous(group="Test")
-public class OdometryTest extends LinearOpMode {
+public class BasicAuto extends LinearOpMode {
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     public RobotHardware robot = new RobotHardware(gt);

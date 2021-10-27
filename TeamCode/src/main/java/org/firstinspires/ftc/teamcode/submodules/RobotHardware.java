@@ -8,6 +8,8 @@ public class RobotHardware {
 
     public Chassis chassis = new Chassis();
     public Gyro gyro = new Gyro();
+    public Conveyor conveyor = new Conveyor();
+    public Spinner spinner = new Spinner();
 
     public GlobalTelemetry gt;
 
@@ -26,6 +28,8 @@ public class RobotHardware {
     public void init(HardwareMap hm){
         chassis.init(hm);
         gyro.init(hm);
+        conveyor.init(hm);
+        spinner.init(hm);
     }
 
 }
