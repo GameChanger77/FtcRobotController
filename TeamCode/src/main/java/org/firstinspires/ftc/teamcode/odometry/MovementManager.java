@@ -70,9 +70,6 @@ public class MovementManager {
 
             robot.chassis.move(xp, yp, r, p);
         }
-
-//        double yp = Range.clip(deltaY, -1, 1); // old way
-//        double xp = Range.clip(deltaX, -1, 1);
     }
 
     /**
@@ -97,15 +94,14 @@ public class MovementManager {
      * @return The "r" power for other functions to use.
      */
     public double powerToAngle(double degrees, double error){
-        double heading = robot.gyro.getHeading();
-        double distance = degrees - heading;
+        double heading = robot.gyro.getHeading(); // Initial heading
+        double distance = degrees - heading; // change in heading
 
         if (Math.abs(distance) > error){
-            if (Math.abs(distance) > 25){
-                return Range.clip(distance, -1, 1);
-            } else {
-                return Range.clip(distance / 5, -1, 1);
-            }
+            if (Math.abs(distance) > 25)
+                return -Range.clip(distance, -1, 1);
+            else
+                return -Range.clip(distance / 5, -1, 1);
         }
         return 0;
     }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tests;
 
 import android.os.Build;
 
@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.cv.Barcode;
 import org.firstinspires.ftc.teamcode.cv.BarcodeScanner;
 import org.firstinspires.ftc.teamcode.cv.Webcam;
@@ -32,6 +33,4 @@ public class BarcodeTest extends LinearOpMode {
             telemetry.update();
         }
     }
-
-
 }

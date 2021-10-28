@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
@@ -24,7 +25,13 @@ public class OdometryTest extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPoint(-37, 27, 0, .75, 1)){}
+        // Spinney boi
+        while (move.goToPoint(27, 115, .75, .75, 1) && opModeIsActive()){}
+
+        // Accuracy Test
+//        while (move.goToPoint(0, 60, 0, .75, 1)){}
+//        while (move.goToPoint(60, 0, 0, .75, 1)){}
+//        while (move.goToPoint(0, 0, 0, .75, 1)){}
 
 
         robot.chassis.stop();
