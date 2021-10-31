@@ -14,7 +14,7 @@ public class OdometryBase implements Runnable {
 
     private final double wheelRadius = Constants.WHEEL_RADIUS,  // In inches
                    circ = Constants.WHEEL_CIRCUMFERENCE, CPR = Constants.COUNTS_PER_REV,
-                    CPI = 135; //Constants.COUNTS_PER_INCH;
+                    CPI = 149.8366446; //Constants.COUNTS_PER_INCH;
 
     public static final String[] configNames =  Constants.chassis;
 
@@ -24,7 +24,7 @@ public class OdometryBase implements Runnable {
     private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, vlPos, vrPos, hPos, vPos;
 
     private boolean isRunning = true;
-    public boolean showPosition = true, showAllData = false;
+    public boolean showPosition = true, showAllData = true;
 
     /**
      * Provide the RobotHardware instance
@@ -84,6 +84,11 @@ public class OdometryBase implements Runnable {
         vlPos = vlMultiplier * vlEncoder.getCurrentPosition() / CPI - vlPosLast;
         vrPos = vrMultiplier * vrEncoder.getCurrentPosition() / CPI - vrPosLast;
         hPos = hMultiplier * hEncoder.getCurrentPosition() / CPI - horPosLast;
+//
+//        if (vlPos > vrPos)
+//            vPos = vlPos;
+//        else
+//            vPos = vrPos;
         vPos = (vlPos + vrPos) / 2;
 
         double heading = robot.gyro.getHeading(); // robot.gyro.getAngle();

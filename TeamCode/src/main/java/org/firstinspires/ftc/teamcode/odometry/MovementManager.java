@@ -31,11 +31,11 @@ public class MovementManager {
      */
     public boolean goToPoint(double x, double y, double r, double p, double error){
         Pose currentPose = gps.getRobotPose();
-
-        if (col.detectWall(x, y)) {
-            gt.addData("MOVEMENT: ", "POINT X " + x + ", Y " + y + " UNREACHABLE");
-            return false;
-        }
+//
+//        if (col.detectWall(x, y)) {
+//            gt.addData("MOVEMENT: ", "POINT X " + x + ", Y " + y + " UNREACHABLE");
+//            return false;
+//        }
 
         double deltaX = x - currentPose.getX();
         double deltaY = y - currentPose.getY();
@@ -83,12 +83,14 @@ public class MovementManager {
         // Normalize the vectors so we can properly set the powers.
         double distance = Math.hypot(deltaX, deltaY);
 
-        if (distance != 0) {
-            double xp = deltaX / distance;
-            double yp = deltaY / distance;
+        double xp = 0, yp = 0;
 
-            robot.chassis.move(xp, yp, r, p);
+        if (distance != 0) {
+            xp = deltaX / distance;
+            yp = deltaY / distance;
         }
+
+        robot.chassis.move(xp, yp, r, p);
     }
 
     /**

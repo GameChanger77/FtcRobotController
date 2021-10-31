@@ -30,8 +30,8 @@ public class BasicAuto extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPose(startPose.getX() + 27, 27, 45, .75, 1)){}
-        while (move.goToPose(115, 27, 90, .75, 1)){}
+        while (move.goToPose(startPose.getX() + 27, 27, -90, .75, 1) && opModeIsActive()){}
+        while (move.goToPose(115, 27, -90, .75, 1) && opModeIsActive()){}
 
 
         robot.chassis.stop();

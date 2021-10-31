@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
+import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
 @Autonomous(group="Test")
@@ -14,7 +15,7 @@ public class OdometryTest extends LinearOpMode {
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     public RobotHardware robot = new RobotHardware(gt);
-    public OdometryBase gps = new OdometryBase(robot);
+    public OdometryBase gps = new OdometryBase(robot, new Pose(0,0,0));
     Thread gpsThread = new Thread(gps);
     CollisionManager col = new CollisionManager(robot, gt, gps);
     MovementManager move = new MovementManager(robot, gt, gps, col);
@@ -28,7 +29,9 @@ public class OdometryTest extends LinearOpMode {
         waitForStart();
 
         // Spinney boi
-        while (move.goToPoint(27, 115, .75, .75, 1) && opModeIsActive()){}
+        while (move.goToPoint(-27, 60, -.5, .75, 1) && opModeIsActive()){
+            //gt.print();
+        }
 
         // Spinney boi v2
 //        while (opModeIsActive()) {
@@ -41,6 +44,9 @@ public class OdometryTest extends LinearOpMode {
 //            while (move.goToPoint(0, 0, -.75, .75, 1) && opModeIsActive()) {
 //            }
 //        }
+
+        robot.chassis.stop();
+        sleep(200000);
 
         // Accuracy Test
 //        while (move.goToPoint(0, 60, 0, .75, 1)){}
