@@ -18,6 +18,8 @@ public class TestChassis extends OpMode {
 
     double power = .25d;
 
+    Pose pose;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -30,6 +32,8 @@ public class TestChassis extends OpMode {
 
     @Override
     public void loop() {
+        pose = gps.getRobotPose(); // Get the robot's X, Y, Z
+
         power = .25d;
         if(gamepad1.right_trigger > .25)
             power = gamepad1.right_trigger;
@@ -42,8 +46,9 @@ public class TestChassis extends OpMode {
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
         }
 
+        // Reset the pose to the origin.
         if (gamepad1.b){
-            gps.overridePosition(new Pose(0,0,0));
+            gps.overridePosition(new Pose(0,0, pose.getTheta()));
         }
 
 

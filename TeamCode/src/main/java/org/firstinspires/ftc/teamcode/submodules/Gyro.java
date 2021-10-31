@@ -9,30 +9,13 @@ import org.firstinspires.ftc.teamcode.Constants;
 public class Gyro {
     private BNO055IMU imu;
 
+    public double offset = 0;
+
     /**
-     * Returns the heading of the robot where 0 is forward and 45 is to the right
-     * @return IMU heading
+     * @return IMU heading in degrees where 0 is forward, 90 is to the left, -90 is to the right
      */
     public double getHeading(){
-        return imu.getAngularOrientation().firstAngle; // gets angle Z
-    }
-
-    /**
-     * Returns the angle of the robot where 0 is along the x-axis (right)
-     * and 90 is along the y-axis (forward)
-     * @return Degrees
-     */
-    public double getAngle(){
-        return 90 - (imu.getAngularOrientation().firstAngle * 2);
-    }
-
-    /**
-     * Returns the angle of the robot where 0 is along the x-axis (right)
-     * and 90 is along the y-axis (forward)
-     * @return Radians
-     */
-    public double getAngleRad(){
-        return Math.toRadians(getAngle());
+        return imu.getAngularOrientation().firstAngle - offset; // gets angle Z
     }
 
     /**

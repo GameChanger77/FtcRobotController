@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
@@ -15,7 +16,8 @@ public class DriverControl extends OpMode {
     RobotHardware robot = new RobotHardware(gt);
     OdometryBase gps = new OdometryBase(robot);
     Thread gpsThread = new Thread(gps);
-    MovementManager move = new MovementManager(robot, gt, gps);
+    CollisionManager col = new CollisionManager(robot, gt, gps);
+    MovementManager move = new MovementManager(robot, gt, gps, col);
 
     Pose pose;
 
@@ -43,9 +45,9 @@ public class DriverControl extends OpMode {
                 pose.getY() - gamepad1.left_stick_y * 2,
                 gamepad1.right_stick_x, power, 0.1);
 
-        // Reset the x and y to the origin.
+        // Reset the pose to the origin.
         if (gamepad1.b){
-            gps.overridePosition(new Pose(0,0,0));
+            gps.overridePosition(new Pose(0,0,pose.getTheta()));
         }
 
     }

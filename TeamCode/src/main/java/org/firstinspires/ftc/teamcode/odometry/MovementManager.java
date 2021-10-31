@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.odometry;
 
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
@@ -10,11 +9,14 @@ public class MovementManager {
     RobotHardware robot;
     GlobalTelemetry gt;
     OdometryBase gps;
+    CollisionManager col;
 
-    public MovementManager(RobotHardware robot, GlobalTelemetry gt, OdometryBase gps) {
+    public MovementManager(RobotHardware robot, GlobalTelemetry gt,
+                           OdometryBase gps, CollisionManager col) {
         this.robot = robot;
         this.gt = gt;
         this.gps = gps;
+        this.col = col;
     }
 
     /**
@@ -30,6 +32,11 @@ public class MovementManager {
     public boolean goToPoint(double x, double y, double r, double p, double error){
         Pose currentPose = gps.getRobotPose();
 
+        if (col.detectWall(x, y)) {
+            gt.addData("MOVEMENT: ", "POINT X " + x + ", Y " + y + " UNREACHABLE");
+            return false;
+        }
+
         double deltaX = x - currentPose.getX();
         double deltaY = y - currentPose.getY();
 
@@ -44,6 +51,18 @@ public class MovementManager {
         if(r == 0)
             robot.chassis.stop();
         return false;
+    }
+
+    /**
+     * Make the robot drive towards a certain point relative to the field.
+     * This works best as the condition of a while loop because it returns true/false.
+     * @param b the point to move towards
+     * @param r the amount of power for rotation
+     * @param p the power scaling. (Gas Pedal)
+     * @return True if the robot is moving. False if the robot has reached the point.
+     */
+    public boolean goToPoint(Point b, double r, double p){
+        return goToPoint(b.x, b.y, r, p, b.r);
     }
 
     /**

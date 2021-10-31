@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
+import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
@@ -18,7 +19,8 @@ public class BasicAuto extends LinearOpMode {
     RobotHardware robot = new RobotHardware(gt);
     OdometryBase gps = new OdometryBase(robot, startPose);
     Thread gpsThread = new Thread(gps);
-    MovementManager move = new MovementManager(robot, gt, gps);
+    CollisionManager col = new CollisionManager(robot, gt, gps);
+    MovementManager move = new MovementManager(robot, gt, gps, col);
 
     @Override
     public void runOpMode() throws InterruptedException {

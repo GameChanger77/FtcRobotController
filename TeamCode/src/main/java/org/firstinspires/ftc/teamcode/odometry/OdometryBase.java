@@ -24,7 +24,7 @@ public class OdometryBase implements Runnable {
     private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, vlPos, vrPos, hPos, vPos;
 
     private boolean isRunning = true;
-    public boolean showPosition = true, showAllData = true;
+    public boolean showPosition = true, showAllData = false;
 
     /**
      * Provide the RobotHardware instance
@@ -50,6 +50,7 @@ public class OdometryBase implements Runnable {
      */
     public void overridePosition(Pose newPose){
         robotPose = newPose;
+        robot.gyro.offset += newPose.getTheta();
     }
 
     /**
