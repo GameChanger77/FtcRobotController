@@ -46,6 +46,10 @@ public class TestChassis extends OpMode {
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
         }
 
+        // Non-Driving functions
+        robot.conveyor.motor.setPower(-gamepad2.right_stick_y);
+        robot.spinner.spinner.setPower(-gamepad2.left_stick_y);
+
         // Reset the pose to the origin.
         if (gamepad1.b){
             gps.overridePosition(new Pose(0,0, pose.getTheta()));
