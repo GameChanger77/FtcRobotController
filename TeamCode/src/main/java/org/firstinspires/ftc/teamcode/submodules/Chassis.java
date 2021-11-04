@@ -41,8 +41,8 @@ public class Chassis {
     /**
      * Sets the power of each wheel so the robot can move in the desired direction
      * Negatives will reverse the direction
-     * @param x The forward component 1 to -1
-     * @param y The right component 1 to -1
+     * @param x The right component 1 to -1
+     * @param y The forward component 1 to -1
      * @param r The clockwise rotation component 1 to -1
      * @param p The overall power / speed control 1 to -1
      */

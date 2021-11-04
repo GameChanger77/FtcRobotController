@@ -31,12 +31,8 @@ public class MovementManager {
      */
     public boolean goToPoint(double x, double y, double r, double p, double error){
         Pose currentPose = gps.getRobotPose();
-//
-//        if (col.detectWall(x, y)) {
-//            gt.addData("MOVEMENT: ", "POINT X " + x + ", Y " + y + " UNREACHABLE");
-//            return false;
-//        }
 
+        // Field relative triangle
         double deltaX = x - currentPose.getX();
         double deltaY = y - currentPose.getY();
 
@@ -76,7 +72,7 @@ public class MovementManager {
     public void fieldDrive(double x, double y, double r, double p){
         double heading = robot.gyro.getHeading();
 
-        // Get the field relative change in x and y
+        // Get the robot relative change in x and y
         double deltaX = getXComponent(heading, x) + getYComponent(heading, y);
         double deltaY = getXComponent(heading, y) - getYComponent(heading, x);
 
