@@ -23,6 +23,8 @@ public class DriverControl extends OpMode {
 
     double power = .25d;
 
+    boolean fieldDrive = true;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -40,18 +42,28 @@ public class DriverControl extends OpMode {
         if(gamepad1.right_trigger > .25)
             power = gamepad1.right_trigger;
 
-        // Make the chassis move relative to the field.
-        move.goToPoint(pose.getX() + gamepad1.left_stick_x * 2,
+        if (fieldDrive) // Make the chassis move relative to the field.
+            move.goToPoint(pose.getX() + gamepad1.left_stick_x * 2,
                 pose.getY() - gamepad1.left_stick_y * 2,
                 gamepad1.right_stick_x, power, 0.1);
+        else // Traditional drive forward relative to robot
+            robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
+
+        if(gamepad1.x) // Burnout
+            robot.chassis.burnout(gamepad1.right_trigger);
+
+        if(gamepad1.dpad_up)
+            fieldDrive = true;
+        if(gamepad1.dpad_down && gamepad1.x && gamepad1.right_bumper && gamepad1.left_bumper)
+            fieldDrive = false;
 
         // Non-Driving functions
         robot.conveyor.motor.setPower(-gamepad2.right_stick_y);
-        robot.spinner.spinner.setPower(-gamepad2.left_stick_y);
+        robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
 
         // Reset the pose to the origin.
         if (gamepad1.b){
-            gps.overridePosition(new Pose(0,0,pose.getTheta()));
+            gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
         }
 
     }

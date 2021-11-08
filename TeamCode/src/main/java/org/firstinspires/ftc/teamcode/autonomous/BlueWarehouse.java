@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Autonomous(name="Basic Auto Red", group="main")
-public class BasicAuto extends LinearOpMode {
+@Autonomous(name="Blue Warehouse", group="main")
+public class BlueWarehouse extends LinearOpMode {
 
-    Pose startPose = new Pose(34, 9, 0);
+    Pose startPose = new Pose(-34, 15, 0);
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
@@ -30,9 +30,10 @@ public class BasicAuto extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPose(startPose.getX() + 27, 27, -90, .75, 1) && opModeIsActive()){}
-        while (move.goToPose(115, 27, -90, .75, 1) && opModeIsActive()){}
-
+        while (move.goToPose(startPose.getX() - 27, 27, -90, .75, 1) && opModeIsActive()) {}
+        telemetry.update();
+        while (move.goToPose(-115, 27, -90, .75, 1) && opModeIsActive()) {}
+        telemetry.update();
 
         robot.chassis.stop();
         gps.stop();
