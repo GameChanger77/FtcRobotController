@@ -50,8 +50,9 @@ public class DriverControl extends OpMode {
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
 
         if(gamepad1.x) // Burnout
-            robot.chassis.burnout(gamepad1.right_trigger);
+            robot.chassis.burnout(power);
 
+        // Toggle Field/headless Drive and Robot Drive
         if(gamepad1.dpad_up)
             fieldDrive = true;
         if(gamepad1.dpad_down && gamepad1.x && gamepad1.right_bumper && gamepad1.left_bumper)
@@ -62,9 +63,8 @@ public class DriverControl extends OpMode {
         robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
 
         // Reset the pose to the origin.
-        if (gamepad1.b){
+        if (gamepad1.b)
             gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
-        }
 
     }
 

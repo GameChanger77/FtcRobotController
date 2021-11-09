@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Autonomous(name="Blue Warehouse", group="main")
-public class BlueWarehouse extends LinearOpMode {
+@Autonomous(name="Blue%Pos1%Warehouse%Duck:no", group="Blue")
+public class Blue_Pos1_Warehouse extends LinearOpMode {
 
     Pose startPose = new Pose(-34, 15, 0);
 

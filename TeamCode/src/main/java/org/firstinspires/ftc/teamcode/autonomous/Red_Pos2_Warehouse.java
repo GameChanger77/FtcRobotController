@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Autonomous(name="Red Warehouse", group="main")
-public class RedWarehouse extends LinearOpMode {
+@Autonomous(name="Red%Pos2%Ware%Duck:no", group="Red")
+public class Red_Pos2_Warehouse extends LinearOpMode {
 
-    Pose startPose = new Pose(34, 15, 0);
+    Pose startPose = new Pose(34, 15, 0); // Change to the start pos 2 coords
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
