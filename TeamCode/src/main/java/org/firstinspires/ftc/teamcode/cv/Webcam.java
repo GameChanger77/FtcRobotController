@@ -53,9 +53,24 @@ public class Webcam {
     VuforiaTrackables targets;
     List<VuforiaTrackable> allTrackables;
 
-    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Quad";
-    private static final String LABEL_SECOND_ELEMENT = "Single";
+    /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
+     * the following 4 detectable objects
+     *  0: Ball,
+     *  1: Cube,
+     *  2: Duck,
+     *  3: Marker (duck location tape marker)
+     *
+     *  Two additional model assets are available which only contain a subset of the objects:
+     *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
+     *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
+     */
+    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String[] LABELS = {
+            "Ball",
+            "Cube",
+            "Duck",
+            "Marker"
+    };
 
     public TFObjectDetector tfod;
 
@@ -230,6 +245,7 @@ public class Webcam {
 
             // activate tensorflow
             tfod.activate();
+            tfod.setZoom(1, 16.0/9.0);
             isTfodActivated = true;
         }
 
@@ -248,14 +264,24 @@ public class Webcam {
             //int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(); // no monitor view
             tfodParameters.minResultConfidence = 0.8f;
+            tfodParameters.isModelTensorFlow2 = true;
+            tfodParameters.inputSize = 320;
             tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-            tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+            tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
             isTfodEnabled = true;
         }
     }
 
-    public int stackSize(){
-        int stackSize = 0;
+    /**
+     * Element is on the left - level 1
+     * Element is in the center - level 2
+     * Element is on the right - level 3
+     *
+     * The duck should face the right
+     * @return 1, 2, 3, for the corresponding level and 0 if something is wrong
+     */
+    public int scanBarcode(){
+        int level = 0;
         // getUpdatedRecognitions() will return null if no new information is available since the last time that call was made.
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
         if (updatedRecognitions != null) {
@@ -269,14 +295,13 @@ public class Webcam {
                         recognition.getLeft(), recognition.getTop());
                 telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                         recognition.getRight(), recognition.getBottom());
-                if(recognition.getLabel().equals("Single"))
-                    stackSize = 1;
-                else if (recognition.getLabel().equals("Quad"))
-                    stackSize = 4;
-                else
-                    stackSize = 0;
+
+                // Add scanning logic here
+
+                i++;
             }
+
         }
-        return stackSize;
+        return level;
     }
 }

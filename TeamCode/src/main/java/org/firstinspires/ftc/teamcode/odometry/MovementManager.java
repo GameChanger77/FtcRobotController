@@ -11,12 +11,29 @@ public class MovementManager {
     OdometryBase gps;
     CollisionManager col;
 
+    /**
+     * USE THIS CONSTRUCTOR IF YOU ARE USING ODOMETRY.
+     * @param robot The RobotHardware object
+     * @param gt The GlobalTelemetry object
+     * @param gps The OdometryBase object
+     * @param col The CollisionManager object
+     */
     public MovementManager(RobotHardware robot, GlobalTelemetry gt,
                            OdometryBase gps, CollisionManager col) {
         this.robot = robot;
         this.gt = gt;
         this.gps = gps;
         this.col = col;
+    }
+
+    /**
+     * ONLY USE THIS CONSTRUCTOR WHEN YOU ARE NOT USING ODOMETRY.
+     * @param robot The RobotHardware object
+     * @param gt The GlobalTelemetry object
+     */
+    public MovementManager(RobotHardware robot, GlobalTelemetry gt) {
+        this.robot = robot;
+        this.gt = gt;
     }
 
     /**

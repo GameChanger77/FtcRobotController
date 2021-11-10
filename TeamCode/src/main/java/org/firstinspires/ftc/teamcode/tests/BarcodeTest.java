@@ -29,7 +29,10 @@ public class BarcodeTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         while (getRuntime() < 30){
             int level = scanner.scan(area, new float[] {128, 128, 128}, 0.75f);
-            telemetry.addData("LEVEL", level);
+
+            cam.scanBarcode();
+
+            telemetry.addData("My own scanner detects LEVEL", level);
             telemetry.update();
         }
     }
