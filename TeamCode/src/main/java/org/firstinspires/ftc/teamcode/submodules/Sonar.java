@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Point;
@@ -37,18 +38,24 @@ public class Sonar {
         gt.print();
     }
 
-    public Pose relocatePose(double heading, double cutoff){
+    public Pose relocatePose(Pose robotPose, double cutoff){
         int i = 0;
+        double x = 0, y = 0;
 
-        for (double distance : getDistances()){
-            if (distance < cutoff){
-                
+        for (Pose ob : detectObstacles(new Pose(0,0, robotPose.getTheta()), cutoff)) {
+            if (ob.getX() < 0 && (ob.getTheta() > 0  && ob.getTheta() < 135)){
+                x = -ob.getX();
+            } else if (ob.getX() > 0 && (ob.getTheta() < 0  && ob.getTheta() > -135)){
+                x = Constants.fieldWidth - ob.getX();
             }
+
+            y = -ob.getY();
+
 
             i++;
         }
 
-        return new Pose(0,0,0);
+        return new Pose(x,y,0);
     }
 
     /**
