@@ -36,7 +36,7 @@ public class DriverControl extends OpMode {
 
     @Override
     public void loop() {
-        pose = gps.getRobotPose(); // Get the robot's X, Y, Z
+        pose = gps.getRobotPose(); // Get the robot's X, Y, 0
 
         power = .25d; // Set the chassis speed
         if(gamepad1.right_trigger > .25)
@@ -65,7 +65,6 @@ public class DriverControl extends OpMode {
         // Reset the pose to the origin.
         if (gamepad1.b)
             gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
-
     }
 
     @Override

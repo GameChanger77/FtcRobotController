@@ -20,9 +20,12 @@ public class Power_Red_Pos1_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        move.fieldDrive(-1, 1, move.powerToAngle(0, 1), 0.5);
-        sleep(2000);
-
+        move.fieldDrive(-1, 1, move.powerToAngle(0, 1), 0.3);
+        sleep(2500);
+        robot.chassis.stop();
+        while (opModeIsActive() && getRuntime() < 10){
+            move.fieldDrive(0,0,move.powerToAngle(0,1), 0.25);
+        }
         robot.chassis.stop();
     }
 

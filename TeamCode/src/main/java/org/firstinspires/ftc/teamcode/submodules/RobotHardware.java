@@ -33,7 +33,7 @@ public class RobotHardware {
         gyro.init(hm);
         conveyor.init(hm);
         spinner.init(hm);
-        voltage = hm.voltageSensor.get("");
+        // voltage = hm.voltageSensor.get("imu");
     }
 
 }
