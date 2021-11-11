@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.submodules;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 
@@ -10,6 +12,7 @@ public class RobotHardware {
     public Gyro gyro = new Gyro();
     public Conveyor conveyor = new Conveyor();
     public Spinner spinner = new Spinner();
+    public VoltageSensor voltage;
 
     public GlobalTelemetry gt;
 
@@ -30,6 +33,7 @@ public class RobotHardware {
         gyro.init(hm);
         conveyor.init(hm);
         spinner.init(hm);
+        voltage = hm.voltageSensor.get("");
     }
 
 }
