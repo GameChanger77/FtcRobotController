@@ -12,7 +12,7 @@ public class RobotHardware {
     public Gyro gyro = new Gyro();
     public Conveyor conveyor = new Conveyor();
     public Spinner spinner = new Spinner();
-    public VoltageSensor voltage;
+    public SoundManager sound = new SoundManager();
 
     public GlobalTelemetry gt;
 
@@ -33,7 +33,9 @@ public class RobotHardware {
         gyro.init(hm);
         conveyor.init(hm);
         spinner.init(hm);
-        // voltage = hm.voltageSensor.get("imu");
+        sound.init(hm);
+
+        sound.playRobotInit();
     }
 
 }

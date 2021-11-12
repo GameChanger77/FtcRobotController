@@ -34,6 +34,8 @@ public class Blue_Pos1_Storage extends LinearOpMode {
 
         robot.chassis.stop();
         gps.stop();
+
+        robot.sound.playAutoComplete();
     }
 
 }

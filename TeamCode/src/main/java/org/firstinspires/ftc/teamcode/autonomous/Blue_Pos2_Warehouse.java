@@ -37,6 +37,8 @@ public class Blue_Pos2_Warehouse extends LinearOpMode {
 
         robot.chassis.stop();
         gps.stop();
+
+        robot.sound.playAutoComplete();
     }
 
 }

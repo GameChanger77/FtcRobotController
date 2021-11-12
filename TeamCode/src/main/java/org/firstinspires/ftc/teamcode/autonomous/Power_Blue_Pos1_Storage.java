@@ -27,6 +27,8 @@ public class Power_Blue_Pos1_Storage extends LinearOpMode {
             move.fieldDrive(0,0,move.powerToAngle(0,1), 0.25);
         }
         robot.chassis.stop();
+
+        robot.sound.playAutoComplete();
     }
 
 }
