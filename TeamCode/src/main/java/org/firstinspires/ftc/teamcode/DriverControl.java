@@ -60,11 +60,14 @@ public class DriverControl extends OpMode {
 
         // Non-Driving functions
         robot.conveyor.motor.setPower(-gamepad2.right_stick_y);
-        robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
+        robot.spinner.spinner.setPower(-gamepad2.left_stick_y/3);
 
         // Reset the pose to the origin.
         if (gamepad1.b)
             gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
+
+        telemetry.addData("VOLTAGE", robot.voltage.getVoltage());
+        telemetry.update();
     }
 
     @Override

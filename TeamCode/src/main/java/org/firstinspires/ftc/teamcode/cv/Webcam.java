@@ -100,9 +100,9 @@ public class Webcam {
             telemetry.addData("/> ", "Vuforia already enabled");
         } else {
             // start vuforia
-            int cameraMonitorViewId = hm.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hm.appContext.getPackageName());
-            parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId); // uses camera preview
-
+//            int cameraMonitorViewId = hm.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hm.appContext.getPackageName());
+//            parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId); // uses camera preview
+            parameters = new VuforiaLocalizer.Parameters();
             telemetry.addData("/> CAMERA", " Camera Monitor View Is Disabled...");
 
             // Vuforia parameters
