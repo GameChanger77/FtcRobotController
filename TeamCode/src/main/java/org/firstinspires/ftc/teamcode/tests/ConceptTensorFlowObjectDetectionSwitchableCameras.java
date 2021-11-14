@@ -88,6 +88,7 @@ public class ConceptTensorFlowObjectDetectionSwitchableCameras extends LinearOpM
     private static final String VUFORIA_KEY =
             "AU6DGO3/////AAABmfbaGbX2lU7yobzEFgj/TC95dmC+wGBKUjoXoXSYSiz92D3Y5XU2YY4TlNcgnQLdXr8Pz3zstBN9KHBPTMczwa4QWR0rqGKqC5L3rdvyZM/bFd2v9/YkKpd54Uyl0tX1CyEB9XSW2HKhFjcofvkud19pT1nqEuQBU+Q8zKCJXc8gSycUPELKVARHhsMPOoJMH4wlS7QmwWde4q/nolTJIjolaLvSemiql29GodpyuXfxCyjRKlCLvEZ1GbwhfdDwrPsZM1QBbOJgdnAIGZ00FNf+059bdvUv3SkcfacMRVua/Jp1BWPgkocF3y2PZrBN28s0AGIlbFBMkYSDZ8stGOWDI/a9nM1EXutODEZUGOUd";
 
+
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
