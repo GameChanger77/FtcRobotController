@@ -42,7 +42,7 @@ public class DriverControl extends OpMode {
     @Override
     public void loop() {
         pose = gps.getRobotPose(); // Get the robot's X, Y, 0
-        autoAlign();
+        // autoAlign();
         drive();
 
         // Non-Driving functions
@@ -53,7 +53,7 @@ public class DriverControl extends OpMode {
         if (gamepad1.b)
             gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
 
-        telemetry.update();
+        // telemetry.update();
     }
 
     void autoAlign(){
@@ -61,28 +61,34 @@ public class DriverControl extends OpMode {
         boolean isDpRight = gamepad1.dpad_right;
         boolean isDpDown = gamepad1.dpad_down;
         boolean isDpLeft = gamepad1.dpad_left;
-        boolean isRJdown = gamepad1.left_stick_button;
+        boolean isRJdown = -gamepad1.right_stick_y > 0.5 ? true : false;
 
         if(isRJdown && !wasRJdown)
             autoAlign = false;
 
-        if(isDpUp && !wasDpUp){
+        if(isDpUp && !wasDpUp && !gamepad1.x){
             autoAlign = true;
             alignAngle = 0;
             robot.sound.playAutoAlign();
-        } else if(isDpRight && !wasDpRight){
+        } else if(isDpRight && !wasDpRight && !gamepad1.x){
             autoAlign = true;
             alignAngle = -90;
             robot.sound.playAutoAlign();
-        } else if(isDpDown && !wasDpDown){
+        } else if(isDpDown && !wasDpDown && !gamepad1.x){
             autoAlign = true;
             alignAngle = 180;
             robot.sound.playAutoAlign();
-        } else if(isDpLeft && !wasDpLeft){
+        } else if(isDpLeft && !wasDpLeft && !gamepad1.x){
             autoAlign = true;
             alignAngle = 90;
             robot.sound.playAutoAlign();
         }
+
+        wasDpUp = isDpUp;
+        wasDpRight = isDpRight;
+        wasDpDown = isDpDown;
+        wasDpLeft = isDpLeft;
+        wasRJdown = isRJdown;
 
         telemetry.addData("Alignment", autoAlign ? "AUTO @" + alignAngle : "MANUAL @" + robot.gyro.getHeading());
     }
@@ -95,12 +101,12 @@ public class DriverControl extends OpMode {
         if (fieldDrive) // Make the chassis move relative to the field.
             move.goToPoint(pose.getX() + gamepad1.left_stick_x * 2,
                     pose.getY() - gamepad1.left_stick_y * 2,
-                    autoAlign ? move.powerToAngle(alignAngle, 1) : gamepad1.right_stick_x,
+                    autoAlign ? move.powerToAngle(alignAngle, 5) : gamepad1.right_stick_x,
                     power, 0.1);
         else // Traditional drive forward relative to robot
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
 
-        if(gamepad1.x && !trainingWheels) // Burnout
+        if(gamepad1.b && !trainingWheels) // Burnout
             robot.chassis.burnout(power);
 
         // Toggle Field/headless Drive and Robot Drive

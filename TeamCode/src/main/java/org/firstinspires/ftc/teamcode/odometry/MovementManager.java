@@ -128,7 +128,7 @@ public class MovementManager {
      * @return The "r" power for other functions to use.
      */
     public double powerToAngle(double degrees, double error){
-        double heading = robot.gyro.getHeading(); // Initial heading
+        double heading =  robot.gyro.getHeading(); // Initial heading
         double distance = degrees - heading; // change in heading
 
         if (Math.abs(distance) > error){

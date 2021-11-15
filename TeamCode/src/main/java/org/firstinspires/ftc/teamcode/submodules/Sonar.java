@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.submodules;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorREV2mDistance;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
@@ -16,26 +19,26 @@ import java.util.ArrayList;
 
 public class Sonar {
 
-    // We want to use either the ModernRoboticsI2cRangeSensor or the SensorREV2mDistance as the
+    // We want to use either the ModernRoboticsI2cRangeSensor or the Rev2mDistanceSensor as the
     // hardware device for the various sensors. Those two have the correct distance units.
 
-    public ModernRoboticsI2cRangeSensor front, left, back, right;
+    public ModernRoboticsI2cRangeSensor front, back;
+    public Rev2mDistanceSensor left, right;
 
     DistanceUnit unit = DistanceUnit.INCH;
 
     public void init(HardwareMap hm){
         front = hm.get(ModernRoboticsI2cRangeSensor.class, "front");
-        left = hm.get(ModernRoboticsI2cRangeSensor.class, "left");
+        left = hm.get(Rev2mDistanceSensor.class, "left");
         back = hm.get(ModernRoboticsI2cRangeSensor.class, "back");
-        right = hm.get(ModernRoboticsI2cRangeSensor.class, "right");
+        right = hm.get(Rev2mDistanceSensor.class, "right");
     }
 
-    public void printDistance(GlobalTelemetry gt){
-        gt.addData("front range: ", front.getDistance(unit));
-        gt.addData("left range: ", left.getDistance(unit));
-        gt.addData("back range: ", back.getDistance(unit));
-        gt.addData("right range: ", right.getDistance(unit));
-        gt.print();
+    public void printDistance(Telemetry telemetry){
+        telemetry.addData("front range: ", front.getDistance(unit));
+        telemetry.addData("left range: ", left.getDistance(unit));
+        telemetry.addData("back range: ", back.getDistance(unit));
+        telemetry.addData("right range: ", right.getDistance(unit));
     }
 
     public Pose relocatePose(Pose robotPose, double cutoff){
@@ -70,9 +73,11 @@ public class Sonar {
 
         for (double distance : getDistances()){
             if (distance < cutoff){
-                obs.add(new Pose(getYComponent(robotPose.getTheta(), -distance) + robotPose.getX(),
-                                 getXComponent(robotPose.getTheta(),  distance) + robotPose.getY(),
-                              robotPose.getTheta() + (i * 90)));
+                double x = getYComponent(robotPose.getTheta(), -distance) + robotPose.getX();
+                double y = getXComponent(robotPose.getTheta(),  distance) + robotPose.getY();
+                double angle = robotPose.getTheta() + (i * 90);
+
+                obs.add(new Pose(x, y, angle));
             }
 
             i++;
