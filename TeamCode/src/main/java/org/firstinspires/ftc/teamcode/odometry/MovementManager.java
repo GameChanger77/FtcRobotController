@@ -124,19 +124,28 @@ public class MovementManager {
     /**
      * Get the amount of power needed to rotate the robot towards an angle.
      * @param degrees The angle to reach
-     * @param error The distance (in degrees) that the robot will stop at.
+     * @param error The distance (in degrees) that the robot will stop at. Must be > 0
      * @return The "r" power for other functions to use.
      */
     public double powerToAngle(double degrees, double error){
         double heading =  robot.gyro.getHeading(); // Initial heading
         double distance = degrees - heading; // change in heading
 
-        if (Math.abs(distance) > error){
-            if (Math.abs(distance) > 25)
-                return -Range.clip(distance, -1, 1);
-            else
-                return -Range.clip(distance / 5, -1, 1);
-        }
+        while (distance > 180) // If the distance > 180 then it is quicker to use the distance - 360
+            distance -= 360;
+        while (distance < -180)
+            distance += 360;
+
+        if (Math.abs(distance) > error)
+            return -Range.clip(distance / 90, -1, 1);
+
+//        if (Math.abs(distance) > error){
+//            if (Math.abs(distance) > 25)
+//                return -Range.clip(distance, -1, 1);
+//            else
+//                return -Range.clip(distance / 5, -1, 1);
+//        }
+
         return 0;
     }
 

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
 @TeleOp(name="Test Chassis", group="test")
+@Disabled
 public class TestChassis extends OpMode {
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);

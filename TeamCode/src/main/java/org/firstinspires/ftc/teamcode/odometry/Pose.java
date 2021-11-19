@@ -30,6 +30,14 @@ public class Pose {
     }
 
     /**
+     * Gives the values of the original pose but with the x negative. Used for blue Autonomous.
+     * @return
+     */
+    public Pose getReversedX(){
+        return new Pose(-x, y, theta);
+    }
+
+    /**
      * Getters and setters for the components.
      * @return
      */

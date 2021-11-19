@@ -31,7 +31,6 @@ public class Red_Pos1_Warehouse extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        //while (move.goToPose(startPose.getX() + 27, 27, -90, .75, 1) && opModeIsActive()){}
         while (move.goToPose(115, 1, 0, .75, 1) && opModeIsActive()){}
 
 

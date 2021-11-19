@@ -31,7 +31,7 @@ public class Red_Pos1_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPose(12, 36, 0, .75, 1) && opModeIsActive()){}
+        while (move.goToPose(12, 36, 0, 0.5, 1) && opModeIsActive()){}
 
 
         robot.chassis.stop();
