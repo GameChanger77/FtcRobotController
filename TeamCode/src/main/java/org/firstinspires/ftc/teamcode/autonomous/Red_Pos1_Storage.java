@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 @Autonomous(name="Red%Pos1%Storage%Duck:no", group="Red")
 public class Red_Pos1_Storage extends LinearOpMode {
 
-    Pose startPose = new Pose(34, 15, 0);
+    Pose startPose = Constants.pos1;
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
@@ -30,7 +31,7 @@ public class Red_Pos1_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPose(10.75, 44, 0, .75, 1) && opModeIsActive()){}
+        while (move.goToPose(12, 36, 0, .75, 1) && opModeIsActive()){}
 
 
         robot.chassis.stop();

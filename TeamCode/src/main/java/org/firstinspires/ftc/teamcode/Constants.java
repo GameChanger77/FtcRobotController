@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.teamcode.odometry.Pose;
+
 public class Constants {
+    public static final Pose pos1 = new Pose(29, 0, 0);
+    public static final Pose pos2 = new Pose (76.625, 0, 0);
     public static final double mmPerInch = 25.4;
 
     public static final double robotwidth = 18;
