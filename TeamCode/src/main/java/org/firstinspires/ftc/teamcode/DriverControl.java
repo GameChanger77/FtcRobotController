@@ -46,7 +46,7 @@ public class DriverControl extends OpMode {
         drive();
 
         // Non-Driving functions
-        robot.conveyor.motor.setPower(-gamepad2.right_stick_y);
+        robot.conveyor.power(-gamepad2.right_stick_y);
         robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
 
         // Reset the pose to the origin.
