@@ -18,10 +18,12 @@ public class Constants {
     public static final double WHEEL_RADIUS = 2.5; // Measure the radius as precisely as possible
     public static final double WHEEL_CIRCUMFERENCE = 2 * WHEEL_RADIUS * Math.PI;
     public static final double COUNTS_PER_REV = 28;
-    public static final double COUNTS_PER_INCH = COUNTS_PER_REV / WHEEL_CIRCUMFERENCE; // replace with real value
+    public static final double COUNTS_PER_INCH = COUNTS_PER_REV / WHEEL_CIRCUMFERENCE;
 
     public static final double X_BOUND_LOW = 10, X_BOUND_HIGH = fieldLength - 10,
             Y_BOUND_LOW = 10, Y_BOUND_HIGH = fieldWidth - 10;
+
+    public static final double X_DISTANCE_OFFSET = 0, Y_DISTANCE_OFFSET = 0; // replace with real value
 
     // Configuration names
     public static final String webcam = "Webcam 1";

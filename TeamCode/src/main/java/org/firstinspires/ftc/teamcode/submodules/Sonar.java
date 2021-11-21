@@ -61,6 +61,16 @@ public class Sonar {
         return new Pose(x,y,0);
     }
 
+    public Pose relocateFromLeft(){
+        return new Pose(left.getDistance(unit) + Constants.X_DISTANCE_OFFSET,
+                        back.getDistance(unit) + Constants.Y_DISTANCE_OFFSET, 0);
+    }
+
+    public Pose relocateFromRight(){
+        return new Pose(Constants.fieldLength - (right.getDistance(unit) + Constants.X_DISTANCE_OFFSET),
+                        back.getDistance(unit) + Constants.Y_DISTANCE_OFFSET, 0);
+    }
+
     /**
      * Plots where the detected obstacles are based on the distances and the robot's pose
      * @param robotPose The robots (x, y, 0)

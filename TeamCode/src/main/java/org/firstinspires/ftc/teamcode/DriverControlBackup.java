@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@TeleOp(name="Driver Control (Field)", group="main")
-public class DriverControl extends OpMode {
+@TeleOp(name="Backup Driver Control", group="main")
+public class DriverControlBackup extends OpMode {
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
