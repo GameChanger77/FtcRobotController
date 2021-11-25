@@ -99,10 +99,10 @@ public class DriverControlRed extends OpMode {
             power = gamepad1.right_trigger * (trainingWheels ? 0.3 : 1);
 
         if (fieldDrive) // Make the chassis move relative to the field.
-            move.fieldDrive(pose.getX() + gamepad1.left_stick_x * 2,
+            move.goToPoint(pose.getX() + gamepad1.left_stick_x * 2,
                     pose.getY() - gamepad1.left_stick_y * 2,
                     autoAlign ? move.powerToAngle(alignAngle, 5) : gamepad1.right_stick_x,
-                    power);
+                    power, 0.1);
         else // Traditional drive forward relative to robot
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
 

@@ -19,7 +19,7 @@ public class OdometryBase implements Runnable {
     public static final String[] configNames =  Constants.chassis;
 
     private final int vlMultiplier = 1, vrMultiplier = 1, hMultiplier = 1,
-            sleepTime = 75;  // Measured in milliseconds
+            sleepTime = 5;  // Measured in milliseconds
 
     private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, vlPos, vrPos, hPos, vPos;
 

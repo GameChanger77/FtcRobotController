@@ -55,7 +55,7 @@ public class MovementManager {
 
         double distance = Math.hypot(deltaX, deltaY);
 
-        fieldDrive(deltaX,deltaY,r,p * Range.clip(distance / 12, .05, 1));
+        fieldDrive(deltaX,deltaY,r,p);
 
         if (distance > error){
             return true;
