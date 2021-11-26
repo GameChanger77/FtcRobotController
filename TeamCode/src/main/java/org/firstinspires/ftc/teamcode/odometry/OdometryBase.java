@@ -14,7 +14,7 @@ public class OdometryBase implements Runnable {
 
     private final double wheelRadius = Constants.WHEEL_RADIUS,  // In inches
                    circ = Constants.WHEEL_CIRCUMFERENCE, CPR = Constants.COUNTS_PER_REV,
-                    CPI = 149.8366446; //Constants.COUNTS_PER_INCH;
+                    CPI = 141; //149.8366446 / 2; //Constants.COUNTS_PER_INCH;
 
     public static final String[] configNames =  Constants.chassis;
 
@@ -83,7 +83,7 @@ public class OdometryBase implements Runnable {
     private void trackPosition(){
         vlPos = vlMultiplier * vlEncoder.getCurrentPosition() / CPI - vlPosLast;
         vrPos = vrMultiplier * vrEncoder.getCurrentPosition() / CPI - vrPosLast;
-        hPos = hMultiplier * hEncoder.getCurrentPosition() / CPI - horPosLast;
+        hPos = hMultiplier * hEncoder.getCurrentPosition() / 115 - horPosLast;
 //
 //        if (vlPos > vrPos)
 //            vPos = vlPos;

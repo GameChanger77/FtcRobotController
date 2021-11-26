@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
+import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
+import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
@@ -12,6 +14,8 @@ public class CPITest extends LinearOpMode {
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
     OdometryBase gps = new OdometryBase(robot);
+    CollisionManager col = new CollisionManager(robot, gt, gps);
+    MovementManager move = new MovementManager(robot, gt, gps, col);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,12 +28,15 @@ public class CPITest extends LinearOpMode {
         gps.printEncoderPositions();
         telemetry.update();
         sleep(3000);
-        robot.chassis.move(1,0,0,.85);
-        sleep(2000);
+//        robot.chassis.move(1,0,0,.5);
+//        sleep(3500);
+        while(getRuntime() > 24 && opModeIsActive()){
+            robot.chassis.move(1, 0, move.powerToAngle(0, 1), .5);
+        }
         robot.chassis.stop();
         gps.printEncoderPositions();
         telemetry.update();
-        sleep(10000);
+        sleep(20000);
     }
 
 

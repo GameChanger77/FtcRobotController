@@ -31,7 +31,11 @@ public class Blue_Pos1_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPose(-12, 36, 0, 0.3, 1) && opModeIsActive()){}
+        while (move.goToPose(-12, 28, 0, 0.3, 1) && opModeIsActive()){
+            telemetry.addData("X: ", gps.getRobotPose().getX());
+            telemetry.addData("Y: ", gps.getRobotPose().getY());
+            telemetry.update();
+        }
 
 
         robot.chassis.stop();

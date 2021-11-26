@@ -106,8 +106,8 @@ public class DriverControlRed extends OpMode {
         else // Traditional drive forward relative to robot
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
 
-        if(gamepad1.b && !trainingWheels) // Burnout
-            robot.chassis.burnout(power);
+//        if(gamepad1.b && !trainingWheels) // Burnout
+//            robot.chassis.burnout(power);
 
         // Toggle Field/headless Drive and Robot Drive
         if(gamepad1.dpad_up)

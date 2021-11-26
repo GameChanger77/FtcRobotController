@@ -42,7 +42,7 @@ public class DriverControlBlue extends OpMode {
     @Override
     public void loop() {
         pose = gps.getRobotPose(); // Get the robot's X, Y, 0
-        // autoAlign();
+        autoAlign();
         drive();
 
         // Non-Driving functions
@@ -101,13 +101,13 @@ public class DriverControlBlue extends OpMode {
         if (fieldDrive) // Make the chassis move relative to the field.
             move.goToPoint(pose.getX() + gamepad1.left_stick_x * 2,
                     pose.getY() - gamepad1.left_stick_y * 2,
-                    autoAlign ? move.powerToAngle(alignAngle, 5) : gamepad1.right_stick_x,
+                    autoAlign ? move.powerToAngle(alignAngle, 5) * 0.75 : gamepad1.right_stick_x,
                     power, 0.1);
         else // Traditional drive forward relative to robot
             robot.chassis.move(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, power);
 
-        if(gamepad1.b && !trainingWheels) // Burnout
-            robot.chassis.burnout(power);
+//        if(gamepad1.b && !trainingWheels) // Burnout
+//            robot.chassis.burnout(power);
 
         // Toggle Field/headless Drive and Robot Drive
         if(gamepad1.dpad_up)
