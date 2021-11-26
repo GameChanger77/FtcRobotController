@@ -57,10 +57,8 @@ public class MovementManager {
 
         fieldDrive(deltaX,deltaY,r,p);
 
-        if (distance > error){
+        if (distance > error)
             return true;
-        }
-
         if(r == 0)
             robot.chassis.stop();
         return false;
@@ -138,14 +136,6 @@ public class MovementManager {
 
         if (Math.abs(distance) > error)
             return -Range.clip(distance / 90, -1, 1);
-
-//        if (Math.abs(distance) > error){
-//            if (Math.abs(distance) > 25)
-//                return -Range.clip(distance, -1, 1);
-//            else
-//                return -Range.clip(distance / 5, -1, 1);
-//        }
-
         return 0;
     }
 

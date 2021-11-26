@@ -42,7 +42,7 @@ public class DriverControlRed extends OpMode {
     @Override
     public void loop() {
         pose = gps.getRobotPose(); // Get the robot's X, Y, 0
-        // autoAlign();
+        autoAlign();
         drive();
 
         // Non-Driving functions
