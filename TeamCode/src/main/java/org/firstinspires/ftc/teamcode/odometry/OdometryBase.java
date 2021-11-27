@@ -12,19 +12,23 @@ public class OdometryBase implements Runnable {
     private Pose robotPose = new Pose(0,0,0);
     private final RobotHardware robot;
 
-    private final double wheelRadius = Constants.WHEEL_RADIUS,  // In inches
-                   circ = Constants.WHEEL_CIRCUMFERENCE, CPR = Constants.COUNTS_PER_REV,
-                    CPI = 141; //149.8366446 / 2; //Constants.COUNTS_PER_INCH;
+    private final double CPI = 141; //149.8366446 / 2;
 
     public static final String[] configNames =  Constants.chassis;
 
     private final int vlMultiplier = 1, vrMultiplier = 1, hMultiplier = 1,
             sleepTime = 5;  // Measured in milliseconds
 
-    private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, vlPos, vrPos, hPos, vPos;
+    private final double mass = 12.5; // robot's mass
+
+    private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, lastHeading = 0,
+                   oldXVelocity = 0, oldYVelocity = 0, oldWVelocity = 0,
+                   vlPos, vrPos, hPos, vPos;
+    public double xVelocity = 0, yVelocity = 0, wVelocity = 0,
+                  xAcc = 0, yAcc = 0, wAcc = 0;
 
     private boolean isRunning = true;
-    public boolean showPosition = true, showAllData = true;
+    public boolean showPosition = true, showMovement = true, showAllData = false;
 
     /**
      * Provide the RobotHardware instance
@@ -84,14 +88,9 @@ public class OdometryBase implements Runnable {
         vlPos = vlMultiplier * vlEncoder.getCurrentPosition() / CPI - vlPosLast;
         vrPos = vrMultiplier * vrEncoder.getCurrentPosition() / CPI - vrPosLast;
         hPos = hMultiplier * hEncoder.getCurrentPosition() / 115 - horPosLast;
-//
-//        if (vlPos > vrPos)
-//            vPos = vlPos;
-//        else
-//            vPos = vrPos;
         vPos = (vlPos + vrPos) / 2;
 
-        double heading = robot.gyro.getHeading(); // robot.gyro.getAngle();
+        double heading = robot.gyro.getHeading();
 
         // The horizontal encoder is 90 degrees from the other encoders so we need to use the co function of what the other encoders use
         double deltaX =  -getYComponent(heading, vPos) + getXComponent(heading, hPos);  // Forward (Y) change
@@ -105,9 +104,39 @@ public class OdometryBase implements Runnable {
         vrPosLast += vrPos;
         horPosLast += hPos;
 
+        // Calculate Velocity
+        xVelocity = deltaX / sleepTime; // in/s
+        yVelocity = deltaY / sleepTime; // in/s
+        wVelocity = (heading - lastHeading) / sleepTime; // degrees/sec
+
+        lastHeading = heading;
+
+        // Calculate Acceleration
+        xAcc = (xVelocity - oldXVelocity) / sleepTime;
+        yAcc = (yVelocity - oldYVelocity) / sleepTime;
+        wAcc = (wVelocity - oldWVelocity) / sleepTime;
+
+        oldXVelocity = xVelocity;
+        oldYVelocity = yVelocity;
+        oldWVelocity = wVelocity;
+
         // Print the XYTheta values to the telemetry.
         if (showPosition)
             robotPose.print(robot.gt);
+
+        if (showMovement){
+            // Print the robot's velocity to the telemetry
+            robot.gt.addData("X Velocity: ", xVelocity + "in/s");
+            robot.gt.addData("Y Velocity: ", yVelocity + "in/s");
+            robot.gt.addData("W Velocity: ", wVelocity + "deg/s");
+
+            // Print the robot's Acceleration to the telemetry
+            robot.gt.addData("X Acceleration: ", xAcc + "in/s/s");
+            robot.gt.addData("Y Acceleration: ", yAcc + "in/s/s");
+            robot.gt.addData("W Acceleration: ", wAcc + "deg/s/s");
+            robot.gt.addData("Work: ", (Math.sqrt(xAcc * xAcc + yAcc * yAcc)) * mass *
+                    Math.sqrt(deltaX * deltaX + deltaY * deltaY));
+        }
 
         // Print all the rest of the data to the telemetry.
         if (showAllData){
@@ -121,9 +150,9 @@ public class OdometryBase implements Runnable {
             robot.gt.addData("Delta X", deltaX);
             robot.gt.addData("Delta Y", deltaY);
             robot.gt.addData("Heading", heading);
-            robot.gt.print();
         }
 
+        robot.gt.print();
     }
 
     /**
