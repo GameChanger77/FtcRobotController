@@ -24,11 +24,13 @@ public class OdometryBase implements Runnable {
     private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, lastHeading = 0,
                    oldXVelocity = 0, oldYVelocity = 0, oldWVelocity = 0,
                    vlPos, vrPos, hPos, vPos;
-    public double xVelocity = 0, yVelocity = 0, wVelocity = 0,
+    public double xVelocity, yVelocity, wVelocity = 0,
                   xAcc = 0, yAcc = 0, wAcc = 0;
 
     private boolean isRunning = true;
     public boolean showPosition = true, showMovement = true, showAllData = false;
+
+    private long time, previousTime = System.currentTimeMillis();
 
     /**
      * Provide the RobotHardware instance
@@ -85,9 +87,11 @@ public class OdometryBase implements Runnable {
      * Keeps track of the encoder positions and updates the robot position with some trig
      */
     private void trackPosition(){
+        time = System.currentTimeMillis();
+
         vlPos = vlMultiplier * vlEncoder.getCurrentPosition() / CPI - vlPosLast;
         vrPos = vrMultiplier * vrEncoder.getCurrentPosition() / CPI - vrPosLast;
-        hPos = hMultiplier * hEncoder.getCurrentPosition() / 115 - horPosLast;
+        hPos = hMultiplier * hEncoder.getCurrentPosition() / CPI - horPosLast;
         vPos = (vlPos + vrPos) / 2;
 
         double heading = robot.gyro.getHeading();
@@ -105,20 +109,24 @@ public class OdometryBase implements Runnable {
         horPosLast += hPos;
 
         // Calculate Velocity
-        xVelocity = deltaX / sleepTime; // in/s
-        yVelocity = deltaY / sleepTime; // in/s
-        wVelocity = (heading - lastHeading) / sleepTime; // degrees/sec
+        double deltaT = time - previousTime;
+
+        xVelocity = deltaX / deltaT; // in/s
+        yVelocity = deltaY / deltaT; // in/s
+        wVelocity = (heading - lastHeading) / deltaT; // degrees/sec
 
         lastHeading = heading;
 
         // Calculate Acceleration
-        xAcc = (xVelocity - oldXVelocity) / sleepTime;
-        yAcc = (yVelocity - oldYVelocity) / sleepTime;
-        wAcc = (wVelocity - oldWVelocity) / sleepTime;
+        xAcc = (xVelocity - oldXVelocity) / deltaT;
+        yAcc = (yVelocity - oldYVelocity) / deltaT;
+        wAcc = (wVelocity - oldWVelocity) / deltaT;
 
         oldXVelocity = xVelocity;
         oldYVelocity = yVelocity;
         oldWVelocity = wVelocity;
+
+        previousTime = time;
 
         // Print the XYTheta values to the telemetry.
         if (showPosition)

@@ -30,12 +30,12 @@ public class Blue_Pos1_Warehouse extends LinearOpMode {
         gpsThread.start();
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
-        while (opModeIsActive()) {
-            while (move.goToPose(-115, 0.25, 0, .3, 1) && opModeIsActive()) {
-                telemetry.addData("X: ", gps.getRobotPose().getX());
-                telemetry.addData("Y: ", gps.getRobotPose().getY());
-                telemetry.update();
-            }
+//        while (opModeIsActive()) {
+//        }
+        while (move.goToPose(-115, 0.1, -7, .3, 1) && opModeIsActive()) {
+            telemetry.addData("X: ", gps.getRobotPose().getX());
+            telemetry.addData("Y: ", gps.getRobotPose().getY());
+            telemetry.update();
         }
 
 
