@@ -67,6 +67,36 @@ public class MovementManager {
     /**
      * Make the robot drive towards a certain point relative to the field.
      * This works best as the condition of a while loop because it returns true/false.
+     * @param x X coordinate relative to the starting point of the robot.
+     * @param y Y coordinate relative to the starting point of the robot.
+     * @param p P power scaling. (Gas pedal)
+     * @param error How close the robot needs to be to a certain point before it will stop.
+     * @param degrees The desired final heading of the robot.
+     * @param angleError The amount of allowed error for the final heading of the robot.
+     * @return True if the robot is moving. False if the robot has reached the point.
+     */
+    public boolean goToPose(double x, double y, double p, double error, double degrees, double angleError){
+        Pose currentPose = gps.getRobotPose();
+        double initialHeading = robot.gyro.getHeading();
+
+        // Field relative triangle
+        double deltaX = x - currentPose.getX();
+        double deltaY = y - currentPose.getY();
+        double deltaW = degrees - initialHeading;
+
+        double distance = Math.hypot(deltaX, deltaY);
+
+        fieldDrive(deltaX, deltaY, powerToAngle(degrees, angleError), p);
+
+        if (distance >= error || deltaW >= angleError)
+            return true;
+        robot.chassis.stop();
+        return false;
+    }
+
+    /**
+     * Make the robot drive towards a certain point relative to the field.
+     * This works best as the condition of a while loop because it returns true/false.
      * @param b the point to move towards
      * @param r the amount of power for rotation
      * @param p the power scaling. (Gas Pedal)

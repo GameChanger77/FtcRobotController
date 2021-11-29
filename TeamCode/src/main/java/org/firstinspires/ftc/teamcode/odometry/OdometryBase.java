@@ -109,7 +109,7 @@ public class OdometryBase implements Runnable {
         horPosLast += hPos;
 
         // Calculate Velocity
-        double deltaT = time - previousTime;
+        long deltaT = time - previousTime;
 
         xVelocity = deltaX / deltaT; // in/s
         yVelocity = deltaY / deltaT; // in/s
@@ -133,6 +133,8 @@ public class OdometryBase implements Runnable {
             robotPose.print(robot.gt);
 
         if (showMovement){
+            robot.gt.addData("Delta Time: ", deltaT + "ms");
+
             // Print the robot's velocity to the telemetry
             robot.gt.addData("X Velocity: ", xVelocity + "in/s");
             robot.gt.addData("Y Velocity: ", yVelocity + "in/s");
@@ -141,10 +143,7 @@ public class OdometryBase implements Runnable {
             // Print the robot's Acceleration to the telemetry
             robot.gt.addData("X Acceleration: ", xAcc + "in/s/s");
             robot.gt.addData("Y Acceleration: ", yAcc + "in/s/s");
-            robot.gt.addData("W Acceleration: ", wAcc + "deg/s/s");
-            robot.gt.addData("Work: ", (Math.sqrt(xAcc * xAcc + yAcc * yAcc)) * mass *
-                    Math.sqrt(deltaX * deltaX + deltaY * deltaY));
-        }
+            robot.gt.addData("W Acceleration: ", wAcc + "deg/s/s"); }
 
         // Print all the rest of the data to the telemetry.
         if (showAllData){
