@@ -36,6 +36,23 @@ public class MovementManager {
         this.gt = gt;
     }
 
+    public void advancedMove(double x, double y, double dscale,
+                             double p, double error, double degrees, double angleError){
+        double distance = Double.MAX_VALUE;
+        while (distance > error){
+            Pose currentPose = gps.getRobotPose();
+
+            // Field relative triangle
+            double deltaX = x - currentPose.getX();
+            double deltaY = y - currentPose.getY();
+
+            distance = Math.hypot(deltaX, deltaY);
+
+            fieldDrive(deltaX, deltaY, powerToAngle(degrees, angleError), p);
+
+        }
+    }
+
     /**
      * Make the robot drive towards a certain point relative to the field.
      * This works best as the condition of a while loop because it returns true/false.
