@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
+@Disabled
 @Autonomous(name="Power%Red%Pos1%Storage%Duck:no", group="Red")
 public class Power_Red_Pos1_Storage extends LinearOpMode {
 

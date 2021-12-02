@@ -31,14 +31,17 @@ public class Blue_Pos1_Duck_Warehouse extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while(move.goToPose(-24, 17, 90, 0.3, 1) && opModeIsActive()){}
-        while(move.goToPose(-2, 16 - 1.75, 90, 0.2, 0.5) && opModeIsActive()){
+        // Duck Spinner
+        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){}
+        while(move.goToPose(-2, 14, 90, 0.2, 0.5) && opModeIsActive()){
             telemetry.update();
         }
         robot.chassis.stop();
         robot.spinner.spinner.setPower(0.25);
         sleep(5000);
         robot.spinner.spinner.setPower(0);
+
+        // Park
         while (move.goToPose(-10, 20, 0, 0.3, 3) && opModeIsActive()){}
         while (move.goToPose(-10, 45, 0, 0.5, 2) && opModeIsActive()){
             telemetry.update();
@@ -46,13 +49,16 @@ public class Blue_Pos1_Duck_Warehouse extends LinearOpMode {
         while (move.goToPose(-77, 63, 0, 0.8, 4) && opModeIsActive()){
             telemetry.update();
         }
-        while (move.goToPose(-77, 16, 0, 0.7, 4) && opModeIsActive()){
+        while (move.advancedMove(-77, 10, 24, 0.7, 1, 0, 1 )) {
             telemetry.update();
         }
-        while (move.goToPose(-83, -1, 0.2, 1, -7, 4) && opModeIsActive()){
+//        while (move.goToPose(-77, 24, 0, 0.7, 4) && opModeIsActive()){
+//            telemetry.update();
+//        }
+        while (move.goToPose(-83, -0.5, 0.2, 1, -7, 4) && opModeIsActive()){
             telemetry.update();
         }
-        while (move.goToPose(-115, -1, 0.2, 0.5, -4, 1) && opModeIsActive()){
+        while (move.goToPose(-115, 1, 0.2, 0.5, -4, 1) && opModeIsActive()){
             telemetry.update();
         }
 

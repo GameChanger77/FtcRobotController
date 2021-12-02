@@ -63,14 +63,14 @@ public class MovementManager {
     public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees, double angleError){
         return advancedMove(x,y,distanceScale,p,error,degrees,angleError, 0.75d);
     }
-
-    public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees){
-        return advancedMove(x,y,distanceScale,p,error,degrees,1, 0.75d);
-    }
-
-    public boolean advancedMove(double x, double y, double p, double error, double degrees){
-        return advancedMove(x,y,12,p,error,degrees,1, 0.75d);
-    }
+//
+//    public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees){
+//        return advancedMove(x,y,distanceScale,p,error,degrees,1, 0.75d);
+//    }
+//
+//    public boolean advancedMove(double x, double y, double p, double error, double degrees){
+//        return advancedMove(x,y,12,p,error,degrees,1, 0.75d);
+//    }
 
     /**
      * Make the robot drive towards a certain point relative to the field.
