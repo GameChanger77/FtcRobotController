@@ -36,21 +36,40 @@ public class MovementManager {
         this.gt = gt;
     }
 
-    public void advancedMove(double x, double y, double dscale,
-                             double p, double error, double degrees, double angleError){
-        double distance = Double.MAX_VALUE;
-        while (distance > error){
-            Pose currentPose = gps.getRobotPose();
+    public boolean advancedMove(double x, double y, double distanceScale,
+                             double p, double error, double degrees, double angleError, double anglePowerScale){
+        Pose currentPose = gps.getRobotPose();
 
-            // Field relative triangle
-            double deltaX = x - currentPose.getX();
-            double deltaY = y - currentPose.getY();
+        // Field relative triangle
+        double deltaX = x - currentPose.getX();
+        double deltaY = y - currentPose.getY();
+        double distance = Math.hypot(deltaX, deltaY);
+        double deltaTheta = degrees - currentPose.theta;
 
-            distance = Math.hypot(deltaX, deltaY);
 
-            fieldDrive(deltaX, deltaY, powerToAngle(degrees, angleError), p);
+        if (distance >= error || deltaTheta >= angleError) {
+            double power = Range.clip(distance / distanceScale, 0.1, 1) * p;
 
+            fieldDrive(deltaX, deltaY,
+                   (powerToAngle(degrees, angleError) / power) * anglePowerScale,
+                       power);
+            return true;
         }
+
+        robot.chassis.stop();
+        return false;
+    }
+
+    public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees, double angleError){
+        return advancedMove(x,y,distanceScale,p,error,degrees,angleError, 0.75d);
+    }
+
+    public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees){
+        return advancedMove(x,y,distanceScale,p,error,degrees,1, 0.75d);
+    }
+
+    public boolean advancedMove(double x, double y, double p, double error, double degrees){
+        return advancedMove(x,y,12,p,error,degrees,1, 0.75d);
     }
 
     /**
