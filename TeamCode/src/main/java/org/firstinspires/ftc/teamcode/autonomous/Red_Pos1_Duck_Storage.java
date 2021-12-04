@@ -43,7 +43,7 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
         robot.spinner.spinner.setPower(0);
         while (move.goToPose(10, 20, 0, 0.3, 1) && opModeIsActive()) {
         }
-        while (move.goToPose(10, 30, 0, 0.2, 1) && opModeIsActive()) {
+        while (move.goToPose(10, 26, 0, 0.2, 1) && opModeIsActive()) {
             telemetry.update();
         }
 
