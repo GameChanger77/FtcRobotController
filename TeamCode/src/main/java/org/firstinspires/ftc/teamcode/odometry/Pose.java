@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 
 public class Pose {
 
-    protected double x, y, theta;
+    public double x, y, theta;
 
     /**
      * The position and orientation of the pose.
@@ -30,11 +30,25 @@ public class Pose {
     }
 
     /**
+     * Prints the current X, Y, and rotation that is stored in the pose.
+     * @param t
+     */
+    public void print(Telemetry t){
+        t.addData("POSE X", x);
+        t.addData("POSE Y", y);
+        t.addData("POSE 0", theta);
+    }
+
+    /**
      * Gives the values of the original pose but with the x negative. Used for blue Autonomous.
      * @return
      */
     public Pose getReversedX(){
         return new Pose(-x, y, theta);
+    }
+
+    public Waypoint toWaypoint(double error, double power){
+        return new Waypoint(x, y, theta, error, power);
     }
 
     /**

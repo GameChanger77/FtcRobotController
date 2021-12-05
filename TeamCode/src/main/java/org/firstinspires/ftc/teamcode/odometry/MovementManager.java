@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.odometry;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
@@ -36,6 +38,67 @@ public class MovementManager {
         this.gt = gt;
     }
 
+    /**
+     * Makes an arc out of three points. The first point is the robot's position at the start of
+     * the path.
+     * @param p2 The second point (Vertex of the arc)
+     * @param p3 The ending point of the arc
+     * @param maximumTimeMillis The maximum time allowed for the robot to attempt the path.
+     * @param opMode The running OpMode so we can determine if the opmode is active.
+     */
+    public void threePointArc(Waypoint p2, Waypoint p3, long maximumTimeMillis, LinearOpMode opMode){
+        Pose pose = gps.getRobotPose();
+        long startTime = System.currentTimeMillis();
+        long finishTime = startTime + maximumTimeMillis;
+
+        Waypoint mid1 = new Waypoint((pose.x + p2.x) / 2 + pose.x,
+                0.75 * (p2.y - pose.y) + pose.y,
+                p2.theta, p2.error, p2.power);
+
+        Waypoint mid2 = new Waypoint((p2.x + p3.x) / 2 + p2.x,
+                0.25 * (p3.y - p2.y) + p2.y,
+                p3.theta, p3.error, p3.power);
+
+        while (goToWaypoint(mid1) && opMode.opModeIsActive()){ // Go to the first mid point
+            if (System.currentTimeMillis() > finishTime) {
+                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 1!");
+                robot.chassis.stop();
+                return;
+            }
+            gt.addData("THREE POINT ARC: ", "RUNNING TO MID 1");
+        }
+        while (goToWaypoint(p2) && opMode.opModeIsActive()){ // go to the second point
+            if (System.currentTimeMillis() > finishTime) {
+                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 2!");
+                robot.chassis.stop();
+                return;
+            }
+            gt.addData("THREE POINT ARC: ", "RUNNING TO POINT 2");
+        }
+        while (goToWaypoint(mid2) && opMode.opModeIsActive()){ // go to the second mid point
+            if (System.currentTimeMillis() > finishTime) {
+                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 2!");
+                robot.chassis.stop();
+                return;
+            }
+            gt.addData("THREE POINT ARC: ", "RUNNING TO MID 2");
+        }
+        while (goToWaypoint(p3) && opMode.opModeIsActive()){ // go to the third point
+            if (System.currentTimeMillis() > finishTime) {
+                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 3!");
+                robot.chassis.stop();
+                return;
+            }
+            gt.addData("THREE POINT ARC: ", "RUNNING TO POINT 3");
+        }
+
+        robot.chassis.stop();
+    }
+
+    public boolean goToWaypoint(Waypoint w){
+        return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
+    }
+
     public boolean advancedMove(double x, double y, double distanceScale,
                              double p, double error, double degrees, double angleError, double anglePowerScale){
         Pose currentPose = gps.getRobotPose();
@@ -59,18 +122,6 @@ public class MovementManager {
         robot.chassis.stop();
         return false;
     }
-
-    public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees, double angleError){
-        return advancedMove(x,y,distanceScale,p,error,degrees,angleError, 0.75d);
-    }
-//
-//    public boolean advancedMove(double x, double y, double distanceScale, double p, double error, double degrees){
-//        return advancedMove(x,y,distanceScale,p,error,degrees,1, 0.75d);
-//    }
-//
-//    public boolean advancedMove(double x, double y, double p, double error, double degrees){
-//        return advancedMove(x,y,12,p,error,degrees,1, 0.75d);
-//    }
 
     /**
      * Make the robot drive towards a certain point relative to the field.
@@ -128,18 +179,6 @@ public class MovementManager {
             return true;
         robot.chassis.stop();
         return false;
-    }
-
-    /**
-     * Make the robot drive towards a certain point relative to the field.
-     * This works best as the condition of a while loop because it returns true/false.
-     * @param b the point to move towards
-     * @param r the amount of power for rotation
-     * @param p the power scaling. (Gas Pedal)
-     * @return True if the robot is moving. False if the robot has reached the point.
-     */
-    public boolean goToPoint(Point b, double r, double p){
-        return goToPoint(b.x, b.y, r, p, b.r);
     }
 
     /**

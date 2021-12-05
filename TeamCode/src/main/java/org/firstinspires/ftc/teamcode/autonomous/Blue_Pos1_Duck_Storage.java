@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
+import org.firstinspires.ftc.teamcode.odometry.Waypoint;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
 @Autonomous(name="Blue%Pos1%Storage%Duck:yes", group="Blue")
@@ -32,10 +33,13 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         waitForStart();
 
         // Duck Spinner
-        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){}
-        while(move.goToPose(-2, 14, 90, 0.22, 0.5) && opModeIsActive()){
-            telemetry.update();
-        }
+//        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){}
+//        while(move.goToPose(-2, 14, 90, 0.22, 0.5) && opModeIsActive()){
+//            telemetry.update();
+//        }
+        move.threePointArc(new Waypoint(-8, 20, 90, 1, 0.3),
+                           new Waypoint(-2, 14, 90, 0.5, 0.22),
+                           10_000L, this);
         robot.chassis.stop();
         robot.spinner.spinner.setPower(0.25);
         sleep(5000);
