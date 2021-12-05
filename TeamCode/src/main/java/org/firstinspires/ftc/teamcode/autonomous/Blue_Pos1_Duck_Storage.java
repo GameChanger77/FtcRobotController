@@ -22,7 +22,7 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
     OdometryBase gps = new OdometryBase(robot, startPose);
     Thread gpsThread = new Thread(gps);
     CollisionManager col = new CollisionManager(robot, gt, gps);
-    MovementManager move = new MovementManager(robot, gt, gps, col);
+    MovementManager move = new MovementManager(robot, gt, gps, col, telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,7 +38,7 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
 //            telemetry.update();
 //        }
         move.threePointArc(new Waypoint(-8, 20, 90, 1, 0.3),
-                           new Waypoint(-2, 14, 90, 0.5, 0.22),
+                           new Waypoint(-2, 15, 90, 0.5, 0.22),
                            10_000L, this);
         robot.chassis.stop();
         robot.spinner.spinner.setPower(0.25);

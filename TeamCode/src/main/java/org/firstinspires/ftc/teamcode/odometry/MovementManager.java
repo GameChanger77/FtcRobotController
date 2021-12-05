@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.odometry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
@@ -12,6 +14,7 @@ public class MovementManager {
     GlobalTelemetry gt;
     OdometryBase gps;
     CollisionManager col;
+    Telemetry telemetry;
 
     /**
      * USE THIS CONSTRUCTOR IF YOU ARE USING ODOMETRY.
@@ -20,6 +23,15 @@ public class MovementManager {
      * @param gps The OdometryBase object
      * @param col The CollisionManager object
      */
+    public MovementManager(RobotHardware robot, GlobalTelemetry gt,
+                           OdometryBase gps, CollisionManager col, Telemetry telemetry) {
+        this.robot = robot;
+        this.gt = gt;
+        this.gps = gps;
+        this.col = col;
+        this.telemetry = telemetry;
+    }
+
     public MovementManager(RobotHardware robot, GlobalTelemetry gt,
                            OdometryBase gps, CollisionManager col) {
         this.robot = robot;
@@ -51,7 +63,7 @@ public class MovementManager {
         long startTime = System.currentTimeMillis();
         long finishTime = startTime + maximumTimeMillis;
 
-        Waypoint mid1 = new Waypoint((pose.x + p2.x) / 2 + pose.x,
+        Waypoint mid1 = new Waypoint((pose.x + p2.x) / 2,
                 0.75 * (p2.y - pose.y) + pose.y,
                 p2.theta, p2.error, p2.power);
 
@@ -61,35 +73,41 @@ public class MovementManager {
 
         while (goToWaypoint(mid1) && opMode.opModeIsActive()){ // Go to the first mid point
             if (System.currentTimeMillis() > finishTime) {
-                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 1!");
+                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 1!");
                 robot.chassis.stop();
                 return;
             }
-            gt.addData("THREE POINT ARC: ", "RUNNING TO MID 1");
+            telemetry.addData("THREE POINT ARC: ", "RUNNING TO MID 1");
+            telemetry.addData("MID X", mid1.x);
+            telemetry.addData("MID Y", mid1.y);
+            telemetry.update();
         }
         while (goToWaypoint(p2) && opMode.opModeIsActive()){ // go to the second point
             if (System.currentTimeMillis() > finishTime) {
-                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 2!");
+                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 2!");
                 robot.chassis.stop();
                 return;
             }
-            gt.addData("THREE POINT ARC: ", "RUNNING TO POINT 2");
+            telemetry.addData("THREE POINT ARC: ", "RUNNING TO POINT 2");
+            telemetry.update();
         }
         while (goToWaypoint(mid2) && opMode.opModeIsActive()){ // go to the second mid point
             if (System.currentTimeMillis() > finishTime) {
-                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 2!");
+                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 2!");
                 robot.chassis.stop();
                 return;
             }
-            gt.addData("THREE POINT ARC: ", "RUNNING TO MID 2");
+            telemetry.addData("THREE POINT ARC: ", "RUNNING TO MID 2");
+            telemetry.update();
         }
         while (goToWaypoint(p3) && opMode.opModeIsActive()){ // go to the third point
             if (System.currentTimeMillis() > finishTime) {
-                gt.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 3!");
+                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 3!");
                 robot.chassis.stop();
                 return;
             }
-            gt.addData("THREE POINT ARC: ", "RUNNING TO POINT 3");
+            telemetry.addData("THREE POINT ARC: ", "RUNNING TO POINT 3");
+            telemetry.update();
         }
 
         robot.chassis.stop();

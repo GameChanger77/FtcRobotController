@@ -17,7 +17,7 @@ public class DriverControlBlue extends OpMode {
     OdometryBase gps = new OdometryBase(robot);
     Thread gpsThread = new Thread(gps);
     CollisionManager col = new CollisionManager(robot, gt, gps);
-    MovementManager move = new MovementManager(robot, gt, gps, col);
+    MovementManager move = new MovementManager(robot, gt, gps, col, telemetry);
 
     Pose pose;
 

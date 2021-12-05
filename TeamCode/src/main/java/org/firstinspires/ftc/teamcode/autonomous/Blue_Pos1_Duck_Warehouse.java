@@ -21,7 +21,7 @@ public class Blue_Pos1_Duck_Warehouse extends LinearOpMode {
     OdometryBase gps = new OdometryBase(robot, startPose);
     Thread gpsThread = new Thread(gps);
     CollisionManager col = new CollisionManager(robot, gt, gps);
-    MovementManager move = new MovementManager(robot, gt, gps, col);
+    MovementManager move = new MovementManager(robot, gt, gps, col, telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,7 +49,7 @@ public class Blue_Pos1_Duck_Warehouse extends LinearOpMode {
         while (move.goToPose(-77, 63, 0, 0.8, 4) && opModeIsActive()){
             telemetry.update();
         }
-        while (move.advancedMove(-77, 10, 24, 0.7, 1, 0, 1 )) {
+        while (move.advancedMove(-77, 10, 24, 0.7, 1, 0, 1, 0.75 )) {
             telemetry.update();
         }
 //        while (move.goToPose(-77, 24, 0, 0.7, 4) && opModeIsActive()){
