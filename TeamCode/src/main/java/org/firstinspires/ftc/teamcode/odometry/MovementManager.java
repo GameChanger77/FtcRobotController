@@ -16,7 +16,7 @@ public class MovementManager {
     CollisionManager col;
     Telemetry telemetry;
 
-    public double defaultDistanceScale = 12, defaultAngleError = 0.5, defaultAnglePowerScale = 0.75;
+    public double defaultDistanceScale = 5, defaultAngleError = 1.5, defaultAnglePowerScale = 0.75;
 
     /**
      * USE THIS CONSTRUCTOR IF YOU ARE USING ODOMETRY.
@@ -116,9 +116,14 @@ public class MovementManager {
     }
 
     public boolean goToWaypoint(Waypoint w){
-        // return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
-        return advancedMove(w.x, w.y, defaultDistanceScale,
-                w.power, w.error, w.theta, defaultAngleError, defaultAnglePowerScale);
+        return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
+/*        return advancedMove(w.x, w.y, defaultDistanceScale,
+                w.power, w.error, w.theta, defaultAngleError, defaultAnglePowerScale);*/
+    }
+
+    public boolean goToWaypoint(Waypoint w, double distanceScale, double angleError){
+        return advancedMove(w.x, w.y, distanceScale,
+                w.power, w.error, w.theta, angleError, defaultAnglePowerScale);
     }
 
     public boolean advancedMove(double x, double y, double distanceScale,
@@ -133,7 +138,7 @@ public class MovementManager {
 
 
         if (distance >= error || deltaTheta >= angleError) {
-            double power = Range.clip(distance / distanceScale, 0.1, 1) * p;
+            double power = Range.clip(distance / distanceScale, 0.1/p, 1) * p;
 
             fieldDrive(deltaX, deltaY,
                    (powerToAngle(degrees, angleError) / power) * anglePowerScale,

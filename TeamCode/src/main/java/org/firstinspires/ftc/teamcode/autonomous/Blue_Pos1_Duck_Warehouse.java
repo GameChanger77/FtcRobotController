@@ -33,7 +33,7 @@ public class Blue_Pos1_Duck_Warehouse extends LinearOpMode {
 
         // Duck Spinner
         while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){}
-        while(move.goToPose(-2, 14, 90, 0.2, 0.5) && opModeIsActive()){
+        while(move.goToPose(-2, 15, 90, 0.2, 0.5) && opModeIsActive()){
             telemetry.update();
         }
         robot.chassis.stop();
@@ -58,7 +58,7 @@ public class Blue_Pos1_Duck_Warehouse extends LinearOpMode {
         while (move.goToPose(-83, -0.5, 0.2, 1, -7, 4) && opModeIsActive()){
             telemetry.update();
         }
-        while (move.goToPose(-115, 1, 0.2, 0.5, -4, 1) && opModeIsActive()){
+        while (move.goToPose(-115, 0.5, 0.2, 0.5, -4, 1) && opModeIsActive()){
             telemetry.update();
         }
 
