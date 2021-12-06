@@ -16,6 +16,8 @@ public class MovementManager {
     CollisionManager col;
     Telemetry telemetry;
 
+    public double defaultDistanceScale = 12, defaultAngleError = 0.5, defaultAnglePowerScale = 0.75;
+
     /**
      * USE THIS CONSTRUCTOR IF YOU ARE USING ODOMETRY.
      * @param robot The RobotHardware object
@@ -73,40 +75,40 @@ public class MovementManager {
 
         while (goToWaypoint(mid1) && opMode.opModeIsActive()){ // Go to the first mid point
             if (System.currentTimeMillis() > finishTime) {
-                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 1!");
+                telemetry.addData("THREE POINT ARC", "RAN OUT OF TIME ON MID 1!");
                 robot.chassis.stop();
                 return;
             }
-            telemetry.addData("THREE POINT ARC: ", "RUNNING TO MID 1");
+            telemetry.addData("THREE POINT ARC", "RUNNING TO MID 1");
             telemetry.addData("MID X", mid1.x);
             telemetry.addData("MID Y", mid1.y);
             telemetry.update();
         }
         while (goToWaypoint(p2) && opMode.opModeIsActive()){ // go to the second point
             if (System.currentTimeMillis() > finishTime) {
-                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 2!");
+                telemetry.addData("THREE POINT ARC", "RAN OUT OF TIME ON POINT 2!");
                 robot.chassis.stop();
                 return;
             }
-            telemetry.addData("THREE POINT ARC: ", "RUNNING TO POINT 2");
+            telemetry.addData("THREE POINT ARC", "RUNNING TO POINT 2");
             telemetry.update();
         }
         while (goToWaypoint(mid2) && opMode.opModeIsActive()){ // go to the second mid point
             if (System.currentTimeMillis() > finishTime) {
-                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON MID 2!");
+                telemetry.addData("THREE POINT ARC", "RAN OUT OF TIME ON MID 2!");
                 robot.chassis.stop();
                 return;
             }
-            telemetry.addData("THREE POINT ARC: ", "RUNNING TO MID 2");
+            telemetry.addData("THREE POINT ARC", "RUNNING TO MID 2");
             telemetry.update();
         }
         while (goToWaypoint(p3) && opMode.opModeIsActive()){ // go to the third point
             if (System.currentTimeMillis() > finishTime) {
-                telemetry.addData("THREE POINT ARC: ", "RAN OUT OF TIME ON POINT 3!");
+                telemetry.addData("THREE POINT ARC", "RAN OUT OF TIME ON POINT 3!");
                 robot.chassis.stop();
                 return;
             }
-            telemetry.addData("THREE POINT ARC: ", "RUNNING TO POINT 3");
+            telemetry.addData("THREE POINT ARC", "RUNNING TO POINT 3");
             telemetry.update();
         }
 
@@ -114,7 +116,9 @@ public class MovementManager {
     }
 
     public boolean goToWaypoint(Waypoint w){
-        return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
+        // return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
+        return advancedMove(w.x, w.y, defaultDistanceScale,
+                w.power, w.error, w.theta, defaultAngleError, defaultAnglePowerScale);
     }
 
     public boolean advancedMove(double x, double y, double distanceScale,
