@@ -69,7 +69,7 @@ public class MovementManager {
                 0.75 * (p2.y - pose.y) + pose.y,
                 p2.theta, p2.error, p2.power);
 
-        Waypoint mid2 = new Waypoint((p2.x + p3.x) / 2 + p2.x,
+        Waypoint mid2 = new Waypoint((p2.x + p3.x) / 2, // + p2.x,
                 0.25 * (p3.y - p2.y) + p2.y,
                 p3.theta, p3.error, p3.power);
 
@@ -116,9 +116,9 @@ public class MovementManager {
     }
 
     public boolean goToWaypoint(Waypoint w){
-        return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
-/*        return advancedMove(w.x, w.y, defaultDistanceScale,
-                w.power, w.error, w.theta, defaultAngleError, defaultAnglePowerScale);*/
+        //return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
+        return advancedMove(w.x, w.y, defaultDistanceScale,
+                w.power, w.error, w.theta, defaultAngleError, defaultAnglePowerScale);
     }
 
     public boolean goToWaypoint(Waypoint w, double distanceScale, double angleError){
@@ -138,7 +138,7 @@ public class MovementManager {
 
 
         if (distance >= error || deltaTheta >= angleError) {
-            double power = Range.clip(distance / distanceScale, 0.1/p, 1) * p;
+            double power = Range.clip(Range.clip(distance / distanceScale, 0.1, 1) * p, 0.1, 1);
 
             fieldDrive(deltaX, deltaY,
                    (powerToAngle(degrees, angleError) / power) * anglePowerScale,

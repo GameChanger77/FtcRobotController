@@ -24,9 +24,7 @@ public class Pose {
      * @param t
      */
     public void print(GlobalTelemetry t){
-        t.addData("POSE X: ", x);
-        t.addData("POSE Y: ", y);
-        t.addData("POSE 0: ", theta);
+        t.addData("POSE: ", String.format("X: %.2fin | Y: %.2fin | θ: %.2fin", x, y, theta));
     }
 
     /**
@@ -34,9 +32,7 @@ public class Pose {
      * @param t
      */
     public void print(Telemetry t){
-        t.addData("POSE X", x);
-        t.addData("POSE Y", y);
-        t.addData("POSE 0", theta);
+        t.addData("POSE", String.format("X: %.2fin | Y: %.2fin | θ: %.2fin", x, y, theta));
     }
 
     /**

@@ -4,15 +4,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class Spinner {
 
     public DcMotor spinner;
     public String name = "spinner";
+    final double CPR = 28;
 
-    public double power = .8;
+    public double power = .2, inc = 0.01;
 
-    int oldPos = 0, pos, deltaPos,
-            oldWVelocity = 0, wVelocity,
+    int oldPos = 0, pos, deltaPos;
+    double oldWVelocity = 0, wVelocity,
             oldWAcc = 0, wAcc;
 
     /**
@@ -33,13 +36,32 @@ public class Spinner {
      */
     public void update(long interval){
         pos = spinner.getCurrentPosition();
-        deltaPos = pos - oldPos;
-        wVelocity = pos - oldPos;
-        wAcc = wVelocity - oldWVelocity;
+        deltaPos  = pos - oldPos;
+        wVelocity = ((pos - oldPos) / CPR) / interval;  // revolutions per time
+        wAcc      = (wVelocity - oldWVelocity) / interval;
 
 
         oldPos = pos;
         oldWVelocity = wVelocity;
+    }
+
+    public void print(Telemetry telemetry){
+        telemetry.addData("SPINNER",
+                String.format("Pos: %d | dPos: %d | Vel: %.2f | Acc: %.2f",
+                spinner.getCurrentPosition(), deltaPos, wVelocity, wAcc));
+    }
+
+    /**
+     * Gives the duck spinner a certain amount of power to reach a certain speed.
+     * @param rps The revolutions per second of the duck spinner.
+     */
+    public void runAtRPS(double rps){
+        if (wVelocity < rps) {
+            power += inc;
+        } else if (wVelocity > rps){
+            power -= inc;
+        }
+        spinner.setPower(power);
     }
 
 }

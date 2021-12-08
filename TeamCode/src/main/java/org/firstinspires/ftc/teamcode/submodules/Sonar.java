@@ -82,10 +82,10 @@ public class Sonar {
         int i = 0;
 
         for (double distance : getDistances()){
-            if (distance < cutoff){
-                double x = getYComponent(robotPose.getTheta(), -distance) + robotPose.getX();
-                double y = getXComponent(robotPose.getTheta(),  distance) + robotPose.getY();
+            if (distance <= cutoff){
                 double angle = robotPose.getTheta() + (i * 90);
+                double x = getYComponent(angle, -distance) + robotPose.getX();
+                double y = getXComponent(angle,  distance) + robotPose.getY();
 
                 obs.add(new Pose(x, y, angle));
             }

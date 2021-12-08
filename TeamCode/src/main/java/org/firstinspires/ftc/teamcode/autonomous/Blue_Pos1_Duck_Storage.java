@@ -33,18 +33,25 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         waitForStart();
 
         // Duck Spinner
-        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){
-            telemetry.update();
-        }
-        while(move.goToPose(-2, 14.5, 90, 0.22, 0.5) && opModeIsActive()){
-            telemetry.update();
-        }
-//        move.threePointArc(new Waypoint(-8, 20, 90, 2, 0.3),
-//                           new Waypoint(-2, 15, 90, 0.5, 0.22),
-//                           10_000L, this);
+//        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){
+//            telemetry.update();
+//        }
+//        while(move.goToPose(-2, 14.5, 90, 0.22, 0.5) && opModeIsActive()){
+//            telemetry.update();
+//        }
+        move.threePointArc(new Waypoint(-8, 20, 90, 2, 0.3),
+                           new Waypoint(-2, 15, 90, 0.5, 0.22),
+                           15_000L, this);
         robot.chassis.stop();
-        robot.spinner.spinner.setPower(0.25);
-        sleep(5000);
+        //robot.spinner.spinner.setPower(0.25);
+        //sleep(5000);
+        long time = System.currentTimeMillis();
+        long finalTime = time += 5_000;
+        while (System.currentTimeMillis() <= finalTime){
+            robot.spinner.runAtRPS(2.25);
+            robot.spinner.print(telemetry);
+        }
+
         robot.spinner.spinner.setPower(0);
 
         // Park

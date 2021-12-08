@@ -19,7 +19,7 @@ public class OdometryBase implements Runnable {
     private final int vlMultiplier = 1, vrMultiplier = 1, hMultiplier = 1,
             sleepTime = 5;  // Measured in milliseconds
 
-    private final double mass = 12.5; // robot's mass
+    private final double mass = 12.5; // robot's mass in kg
 
     private double vlPosLast = 0, vrPosLast = 0, horPosLast = 0, lastHeading = 0,
                    oldXVelocity = 0, oldYVelocity = 0, oldWVelocity = 0,
@@ -109,7 +109,7 @@ public class OdometryBase implements Runnable {
         horPosLast += hPos;
 
         // Calculate Velocity
-        long deltaT = time - previousTime;
+        long deltaT = (time - previousTime) / 1000;
 
         xVelocity = deltaX / deltaT; // in/s
         yVelocity = deltaY / deltaT; // in/s
@@ -122,6 +122,8 @@ public class OdometryBase implements Runnable {
         yAcc = (yVelocity - oldYVelocity) / deltaT;
         wAcc = (wVelocity - oldWVelocity) / deltaT;
 
+        robot.spinner.update(deltaT); // Update the duck spinner
+
         oldXVelocity = xVelocity;
         oldYVelocity = yVelocity;
         oldWVelocity = wVelocity;
@@ -132,18 +134,20 @@ public class OdometryBase implements Runnable {
         if (showPosition)
             robotPose.print(robot.gt);
 
-        if (showMovement){
+        if (showMovement) {
             robot.gt.addData("Delta Time: ", deltaT + "ms");
 
             // Print the robot's velocity to the telemetry
-            robot.gt.addData("X Velocity: ", xVelocity + "in/s");
-            robot.gt.addData("Y Velocity: ", yVelocity + "in/s");
-            robot.gt.addData("W Velocity: ", wVelocity + "deg/s");
+
+            robot.gt.addData("Velocity",
+                    String.format("X: %.2fin/s | Y: %.2fin/s | W: %.2fdeg/s",
+                            xVelocity, yVelocity, wVelocity));
 
             // Print the robot's Acceleration to the telemetry
-            robot.gt.addData("X Acceleration: ", xAcc + "in/s/s");
-            robot.gt.addData("Y Acceleration: ", yAcc + "in/s/s");
-            robot.gt.addData("W Acceleration: ", wAcc + "deg/s/s"); }
+            robot.gt.addData("Acc:",
+                    String.format("X: %.2fin/s/s | Y: %.2fin/s/s | W: %.2fdeg/s/s",
+                            xAcc, yAcc, wAcc));
+        }
 
         // Print all the rest of the data to the telemetry.
         if (showAllData){
