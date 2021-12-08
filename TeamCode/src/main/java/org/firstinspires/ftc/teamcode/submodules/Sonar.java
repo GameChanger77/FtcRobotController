@@ -22,15 +22,15 @@ public class Sonar {
     // We want to use either the ModernRoboticsI2cRangeSensor or the Rev2mDistanceSensor as the
     // hardware device for the various sensors. Those two have the correct distance units.
 
-    public ModernRoboticsI2cRangeSensor front, back;
-    public Rev2mDistanceSensor left, right;
+    public ModernRoboticsI2cRangeSensor front;
+    public Rev2mDistanceSensor left, right, back;
 
     DistanceUnit unit = DistanceUnit.INCH;
 
     public void init(HardwareMap hm){
         front = hm.get(ModernRoboticsI2cRangeSensor.class, "front");
         left = hm.get(Rev2mDistanceSensor.class, "left");
-        back = hm.get(ModernRoboticsI2cRangeSensor.class, "back");
+        back = hm.get(Rev2mDistanceSensor.class, "back");
         right = hm.get(Rev2mDistanceSensor.class, "right");
     }
 
