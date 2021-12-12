@@ -25,10 +25,9 @@ public class DriverControlBlue extends OpMode {
     int alignAngle = 0;
 
     // Settings
-    boolean fieldDrive = true;
+    boolean fieldDrive = true, trainingWheels = false, admin = false, wasAdmin = false;
     boolean wasDpUp = false, wasDpRight = false, wasDpDown = false, wasDpLeft = false,
             wasRJdown = false, autoAlign = false;
-    boolean trainingWheels = false;
 
     @Override
     public void init() {
@@ -42,6 +41,7 @@ public class DriverControlBlue extends OpMode {
     @Override
     public void loop() {
         pose = gps.getRobotPose(); // Get the robot's X, Y, 0
+        user();
         autoAlign();
         drive();
 
@@ -111,24 +111,36 @@ public class DriverControlBlue extends OpMode {
 //            robot.chassis.burnout(power);
 
         // Toggle Field/headless Drive and Robot Drive
-        if(gamepad1.dpad_up)
+        if(gamepad1.dpad_up && admin && gamepad1.x)
             fieldDrive = true;
-        if(gamepad1.dpad_down && gamepad1.x && gamepad1.right_bumper && gamepad1.left_bumper){
+        if(gamepad1.dpad_down && admin && gamepad1.x){
             fieldDrive = false;
-            robot.sound.playAdminOverride();
         }
 
-        // Training wheels activation and deactivation
-        if(gamepad1.dpad_right && gamepad1.x && gamepad1.right_bumper && gamepad1.left_bumper && !wasDpRight) {
-            trainingWheels = true;
-            robot.sound.playTrainingWheels();
-        }
+    }
 
-        if (gamepad1.dpad_left && gamepad1.x && gamepad1.right_bumper && gamepad1.left_bumper && !wasDpLeft){
+    void user(){
+        // Admin
+        if (gamepad1.x && gamepad1.right_bumper && gamepad1.left_bumper && !wasAdmin){
+            admin = true;
             trainingWheels = false;
             robot.sound.playAdminOverride();
         }
 
+        wasAdmin = admin;
+
+        // Training wheels activation and deactivation
+        if(gamepad1.dpad_right && !wasDpRight) {
+            admin = false;
+            trainingWheels = true;
+            robot.sound.playTrainingWheels();
+        }
+
+        if (gamepad1.dpad_left && !wasDpLeft){
+            trainingWheels = false;
+        }
+
+        telemetry.addData("USER:>", admin ? "ADMIN" : (trainingWheels ? "PLEB" : "DEFAULT"));
     }
 
     @Override
