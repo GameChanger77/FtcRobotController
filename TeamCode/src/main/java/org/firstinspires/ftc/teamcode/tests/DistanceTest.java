@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.submodules.Sonar;
 @TeleOp
 public class DistanceTest extends OpMode {
 
-    Sonar sonar = new Sonar();
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
     OdometryBase gps = new OdometryBase(robot);
@@ -25,7 +24,6 @@ public class DistanceTest extends OpMode {
 
     @Override
     public void init() {
-        sonar.init(hardwareMap);
         robot.init(hardwareMap);
         gps.init(hardwareMap);
         gps.showMovement = false;
@@ -39,10 +37,11 @@ public class DistanceTest extends OpMode {
         pose = gps.getRobotPose(); // Get the robot's X, Y, 0
 
         drive();
-        //sonar.printDistance(telemetry);
-        for (Pose obs : sonar.detectObstacles(gps.getRobotPose(), 200)){
-            obs.print(gt);
-        }
+        robot.sonar.printDistance(telemetry);
+
+//        for (Pose obs : sonar.detectObstacles(gps.getRobotPose(), 200)){
+//            obs.print(gt);
+//        }
 
         //gt.print();
         //telemetry.update();

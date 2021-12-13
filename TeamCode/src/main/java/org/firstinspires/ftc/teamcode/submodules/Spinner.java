@@ -34,7 +34,7 @@ public class Spinner {
     /**
      * Used in the OdometryBase thread to keep track of the velocity of the wheel
      */
-    public void update(long interval){
+    public void update(double interval){
         pos = spinner.getCurrentPosition();
         deltaPos  = pos - oldPos;
         wVelocity = ((pos - oldPos) / CPR) / interval;  // revolutions per time

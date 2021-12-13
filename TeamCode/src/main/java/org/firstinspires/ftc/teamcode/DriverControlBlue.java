@@ -47,7 +47,7 @@ public class DriverControlBlue extends OpMode {
 
         // Non-Driving functions
         robot.conveyor.power(-gamepad2.right_stick_y);
-        if (gamepad1.x) robot.spinner.runAtRPS(2.25); //  Duck spinner test
+        if (gamepad1.y) robot.spinner.runAtRPS(2.25); //  Duck spinner test
         else robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
 
         // Reset the pose to the origin.
@@ -130,13 +130,14 @@ public class DriverControlBlue extends OpMode {
         wasAdmin = admin;
 
         // Training wheels activation and deactivation
-        if(gamepad1.dpad_right && !wasDpRight) {
+        if(gamepad1.dpad_right && !wasDpRight && gamepad1.x) {
             admin = false;
             trainingWheels = true;
             robot.sound.playTrainingWheels();
         }
 
-        if (gamepad1.dpad_left && !wasDpLeft){
+        if (gamepad1.dpad_left && !wasDpLeft & gamepad1.x){
+            admin = false;
             trainingWheels = false;
         }
 

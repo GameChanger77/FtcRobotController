@@ -138,7 +138,7 @@ public class MovementManager {
 
 
         if (distance >= error || deltaTheta >= angleError) {
-            double power = Range.clip(Range.clip(distance / distanceScale, 0.1, 1) * p, 0.1, 1);
+            double power = Range.clip(Range.clip(distance / distanceScale, 0.15, 1) * p, 0.15, 1);
 
             fieldDrive(deltaX, deltaY,
                    (powerToAngle(degrees, angleError) / power) * anglePowerScale,

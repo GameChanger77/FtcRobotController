@@ -13,6 +13,7 @@ public class RobotHardware {
     public Conveyor conveyor = new Conveyor();
     public Spinner spinner = new Spinner();
     public SoundManager sound = new SoundManager();
+    public Sonar sonar = new Sonar();
     public VoltageSensor voltage;
 
     public GlobalTelemetry gt;
@@ -35,6 +36,7 @@ public class RobotHardware {
         conveyor.init(hm);
         spinner.init(hm);
         sound.init(hm);
+        sonar.init(hm);
 
         voltage = hm.get(VoltageSensor.class, "Control Hub");
 

@@ -109,7 +109,7 @@ public class OdometryBase implements Runnable {
         horPosLast += hPos;
 
         // Calculate Velocity
-        long deltaT = (time - previousTime) / 1000;
+        double deltaT = (time - previousTime) / 1000d;
 
         xVelocity = deltaX / deltaT; // in/s
         yVelocity = deltaY / deltaT; // in/s
