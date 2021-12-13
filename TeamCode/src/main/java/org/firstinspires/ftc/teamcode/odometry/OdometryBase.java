@@ -121,7 +121,6 @@ public class OdometryBase implements Runnable {
         xAcc = (xVelocity - oldXVelocity) / deltaT;
         yAcc = (yVelocity - oldYVelocity) / deltaT;
         wAcc = (wVelocity - oldWVelocity) / deltaT;
-
         robot.spinner.update(deltaT); // Update the duck spinner
 
         oldXVelocity = xVelocity;

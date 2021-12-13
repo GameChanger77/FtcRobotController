@@ -10,9 +10,9 @@ public class Spinner {
 
     public DcMotor spinner;
     public String name = "spinner";
-    final double CPR = 28;
+    final double CPR = 140;
 
-    public double power = .2, inc = 0.01;
+    public double power = .2, inc = 0.005;
 
     int oldPos = 0, pos, deltaPos;
     double oldWVelocity = 0, wVelocity,
@@ -35,7 +35,7 @@ public class Spinner {
      * Used in the OdometryBase thread to keep track of the velocity of the wheel
      */
     public void update(double interval){
-        pos = spinner.getCurrentPosition();
+        pos       = spinner.getCurrentPosition();
         deltaPos  = pos - oldPos;
         wVelocity = ((pos - oldPos) / CPR) / interval;  // revolutions per time
         wAcc      = (wVelocity - oldWVelocity) / interval;

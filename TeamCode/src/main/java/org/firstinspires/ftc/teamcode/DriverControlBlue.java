@@ -47,6 +47,7 @@ public class DriverControlBlue extends OpMode {
 
         // Non-Driving functions
         robot.conveyor.power(-gamepad2.right_stick_y);
+        robot.spinner.print(telemetry);
         if (gamepad1.y) robot.spinner.runAtRPS(2.25); //  Duck spinner test
         else robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
 
