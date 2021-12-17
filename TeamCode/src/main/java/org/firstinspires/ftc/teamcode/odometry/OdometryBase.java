@@ -134,7 +134,7 @@ public class OdometryBase implements Runnable {
             robotPose.print(robot.gt);
 
         if (showMovement) {
-            robot.gt.addData("Delta Time: ", deltaT + "ms");
+            robot.gt.addData("Delta Time: ", deltaT * 1000 + "ms");
 
             // Print the robot's velocity to the telemetry
 
@@ -182,11 +182,11 @@ public class OdometryBase implements Runnable {
     public void run() {
         while(isRunning) {
             trackPosition();
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(sleepTime);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 

@@ -29,7 +29,7 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         robot.init(hardwareMap);
         gps.init(hardwareMap);
         gpsThread.start();
-        move.defaultAnglePowerScale = .4;
+        move.defaultAnglePower = .2;
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
@@ -46,8 +46,7 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         robot.chassis.stop();
         //robot.spinner.spinner.setPower(0.25);
         //sleep(5000);
-        long time = System.currentTimeMillis();
-        long finalTime = time += 5_000;
+        long finalTime = System.currentTimeMillis() + 5_000;
         while (System.currentTimeMillis() <= finalTime){
             robot.spinner.runAtRPS(2, .25);
             robot.spinner.print(telemetry);
@@ -56,7 +55,10 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         robot.spinner.spinner.setPower(0);
 
         // Park
+        move.doTimeOut = true;
+        move.finalTime = System.currentTimeMillis() + 5_000;
         while (move.goToPose(-10, 20, 0, 0.3, 1) && opModeIsActive()){}
+        move.finalTime = System.currentTimeMillis() + 5_000;
         while (move.goToPose(-10, 30, 0.2, 1, 0, 0.5) && opModeIsActive()){
             telemetry.update();
         }

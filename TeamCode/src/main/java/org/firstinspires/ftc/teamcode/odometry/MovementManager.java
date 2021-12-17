@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.odometry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,7 +15,9 @@ public class MovementManager {
     CollisionManager col;
     Telemetry telemetry;
 
-    public double defaultDistanceScale = 5, defaultAngleError = 1.5, defaultAnglePowerScale = 0.75;
+    public double defaultDistanceScale = 5, defaultAngleError = 1.5, defaultAnglePower = 0.4;
+    public long finalTime = 0;
+    public boolean doTimeOut = false;
 
     /**
      * USE THIS CONSTRUCTOR IF YOU ARE USING ODOMETRY.
@@ -80,8 +81,9 @@ public class MovementManager {
                 return;
             }
             telemetry.addData("THREE POINT ARC", "RUNNING TO MID 1");
-            telemetry.addData("MID X", mid1.x);
-            telemetry.addData("MID Y", mid1.y);
+            mid1.toPose().print(telemetry);
+//            telemetry.addData("MID X", mid1.x);
+//            telemetry.addData("MID Y", mid1.y);
             telemetry.update();
         }
         while (goToWaypoint(p2) && opMode.opModeIsActive()){ // go to the second point
@@ -91,6 +93,7 @@ public class MovementManager {
                 return;
             }
             telemetry.addData("THREE POINT ARC", "RUNNING TO POINT 2");
+            p2.toPose().print(telemetry);
             telemetry.update();
         }
         while (goToWaypoint(mid2) && opMode.opModeIsActive()){ // go to the second mid point
@@ -100,6 +103,7 @@ public class MovementManager {
                 return;
             }
             telemetry.addData("THREE POINT ARC", "RUNNING TO MID 2");
+            mid2.toPose().print(telemetry);
             telemetry.update();
         }
         while (goToWaypoint(p3) && opMode.opModeIsActive()){ // go to the third point
@@ -109,6 +113,7 @@ public class MovementManager {
                 return;
             }
             telemetry.addData("THREE POINT ARC", "RUNNING TO POINT 3");
+            p3.toPose().print(telemetry);
             telemetry.update();
         }
 
@@ -118,12 +123,12 @@ public class MovementManager {
     public boolean goToWaypoint(Waypoint w){
         //return goToPose(w.x, w.y, w.power, w.error, w.theta, 0.5);
         return advancedMove(w.x, w.y, defaultDistanceScale,
-                w.power, w.error, w.theta, defaultAngleError, defaultAnglePowerScale);
+                w.power, w.error, w.theta, defaultAngleError, defaultAnglePower);
     }
 
     public boolean goToWaypoint(Waypoint w, double distanceScale, double angleError){
         return advancedMove(w.x, w.y, distanceScale,
-                w.power, w.error, w.theta, angleError, defaultAnglePowerScale);
+                w.power, w.error, w.theta, angleError, defaultAnglePower);
     }
 
     public boolean advancedMove(double x, double y, double distanceScale,
@@ -137,7 +142,8 @@ public class MovementManager {
         double deltaTheta = degrees - currentPose.theta;
 
 
-        if (distance >= error || deltaTheta >= angleError) {
+        if ((distance >= error || deltaTheta >= angleError)
+                && (doTimeOut ? System.currentTimeMillis() <= finalTime : true)) {
             double power = Range.clip(Range.clip(distance / distanceScale, 0.15, 1) * p, 0.15, 1);
 
             fieldDrive(deltaX, deltaY,
@@ -158,7 +164,7 @@ public class MovementManager {
      * @param r R power to make the robot rotate. (May be replaced with an angle system)
      * @param p P power scaling. (Gas pedal)
      * @param error How close the robot needs to be to a certain point before it will stop.
-     * @return True if the robot is moving. False if the robot has reached the point.
+     * @return True if the robot is moving. False if the robot has reached the point or time has run out.
      */
     public boolean goToPoint(double x, double y, double r, double p, double error){
         Pose currentPose = gps.getRobotPose();
@@ -171,7 +177,7 @@ public class MovementManager {
 
         fieldDrive(deltaX,deltaY,r,p);
 
-        if (distance > error)
+        if (distance > error && (doTimeOut ? System.currentTimeMillis() <= finalTime : true))
             return true;
         if(r == 0)
             robot.chassis.stop();
@@ -202,7 +208,8 @@ public class MovementManager {
 
         fieldDrive(deltaX, deltaY, powerToAngle(degrees, angleError), p);
 
-        if (distance >= error || deltaW >= angleError)
+        if ((distance >= error || deltaW >= angleError)
+                && (doTimeOut ? System.currentTimeMillis() <= finalTime : true))
             return true;
         robot.chassis.stop();
         return false;
