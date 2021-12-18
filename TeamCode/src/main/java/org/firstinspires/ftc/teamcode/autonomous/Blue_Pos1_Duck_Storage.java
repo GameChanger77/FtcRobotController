@@ -34,21 +34,17 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         waitForStart();
 
         // Duck Spinner
-//        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){
-//            telemetry.update();
-//        }
-//        while(move.goToPose(-2, 14.5, 90, 0.22, 0.5) && opModeIsActive()){
-//            telemetry.update();
-//        }
-        move.threePointArc(new Waypoint(-8, 20, 0, 2, 0.3),
-                           new Waypoint(-2, 15, 90, 0.5, 0.22),
-                           15_000L, this);
+        while(move.goToPose(-4, 17, 90, 0.3, 1) && opModeIsActive()){telemetry.update();}
+        while(move.goToPose(-2, 15, 90, 0.22, 0.5) && opModeIsActive()){ telemetry.update();}
+//        move.threePointArc(new Waypoint(-8, 20, 0, 2, 0.3),
+//                           new Waypoint(-2, 15, 90, 0.5, 0.22),
+//                           15_000L, this);
         robot.chassis.stop();
         //robot.spinner.spinner.setPower(0.25);
         //sleep(5000);
         long finalTime = System.currentTimeMillis() + 5_000;
         while (System.currentTimeMillis() <= finalTime){
-            robot.spinner.runAtRPS(2, .25);
+            robot.spinner.runAtRPS(1.5, .1);
             robot.spinner.print(telemetry);
         }
 
@@ -59,9 +55,14 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         move.finalTime = System.currentTimeMillis() + 5_000;
         while (move.goToPose(-10, 20, 0, 0.3, 1) && opModeIsActive()){}
         move.finalTime = System.currentTimeMillis() + 5_000;
-        while (move.goToPose(-10, 30, 0.2, 1, 0, 0.5) && opModeIsActive()){
+        while (move.goToPose(-10, 30, 0.2, 1, 0, 0.25) && opModeIsActive()){
             telemetry.update();
         }
+
+//        while (opModeIsActive()) {
+//            robot.conveyor.power(0.5);
+//            telemetry.update();
+//        }
 
         robot.chassis.stop();
         gps.stop();

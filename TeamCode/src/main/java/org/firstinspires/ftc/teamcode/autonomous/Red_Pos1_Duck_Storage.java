@@ -29,23 +29,43 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
         robot.init(hardwareMap);
         gps.init(hardwareMap);
         gpsThread.start();
+        robot.spinner.power = 0.1;
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        while (move.goToPose(7, 10, 0, 0.3, 1) && opModeIsActive()) {
-        }
-        while (move.goToPose(7, 10 - 1.75, 0, 0.2, 0.5) && opModeIsActive()) {
-            telemetry.update();
-        }
+//        while (move.goToPose(7, 15, 0, 0.3, 1) && opModeIsActive()) {
+//        }
+//        while (move.goToPose(7, 15, 0, 0.2, 0.5) && opModeIsActive()) {
+//            telemetry.update();
+//        }
+
+        // Duck Spinner
+        long finalTime = System.currentTimeMillis() + 10_000;
+        while(move.goToPose(9, 15, 0, 0.3, 1) && opModeIsActive()){telemetry.update();}
+        while(move.goToPose(7, 9.7, 0, 0.22, 0.5) && System.currentTimeMillis() <= finalTime){ telemetry.update();}
+//        move.threePointArc(new Waypoint(-8, 20, 0, 2, 0.3),
+//                           new Waypoint(-2, 15, 90, 0.5, 0.22),
+//                           15_000L, this);
         robot.chassis.stop();
-        robot.spinner.spinner.setPower(-0.25);
-        sleep(5000);
-        robot.spinner.spinner.setPower(0);
-        while (move.goToPose(10, 20, 0, 0.3, 1) && opModeIsActive()) {
+        //robot.spinner.spinner.setPower(0.25);
+        //sleep(5000);
+        finalTime = System.currentTimeMillis() + 10_000;
+        while (System.currentTimeMillis() <= finalTime){
+            robot.spinner.runAtRPS(-1, .1);
+            robot.spinner.print(telemetry);
         }
-        while (move.goToPose(10, 26, 0, 0.2, 1) && opModeIsActive()) {
+
+        robot.spinner.spinner.setPower(0);
+
+        // Park
+        move.doTimeOut = true;
+        move.finalTime = System.currentTimeMillis() + 5_000;
+        while (move.goToPose(10, 20, 0, 0.3, 1) && opModeIsActive()){}
+        move.finalTime = System.currentTimeMillis() + 5_000;
+        while (move.goToPose(10, 27, 0.2, 1, 0, 0.25) && opModeIsActive()){
             telemetry.update();
         }
+
 
         robot.chassis.stop();
         gps.stop();

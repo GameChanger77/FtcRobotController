@@ -12,7 +12,7 @@ public class Spinner {
     public String name = "spinner";
     final double CPR = 140;
 
-    public double power = .2, inc = 0.005;
+    public double power = 0, inc = 0.001;
 
     int oldPos = 0, pos, deltaPos;
     double oldWVelocity = 0, wVelocity,
