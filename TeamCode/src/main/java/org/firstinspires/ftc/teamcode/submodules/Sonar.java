@@ -63,14 +63,23 @@ public class Sonar {
         return new Pose(x,y,0);
     }
 
-    public Pose relocateFromLeft(){
-        return new Pose(left.getDistance(unit) + Constants.X_DISTANCE_OFFSET,
-                        back.getDistance(unit) + Constants.Y_DISTANCE_OFFSET, 0);
-    }
+    public Pose relocate(double heading, double cutoff, boolean isRed){
+        Pose pose = new Pose(0,0,heading);
+        double y = Double.MAX_VALUE;
+        double x = 0;
 
-    public Pose relocateFromRight(){
-        return new Pose(Constants.fieldLength - (right.getDistance(unit) + Constants.X_DISTANCE_OFFSET),
-                        back.getDistance(unit) + Constants.Y_DISTANCE_OFFSET, 0);
+        ArrayList<Pose> obs = detectObstacles(pose, cutoff);
+
+        for (Pose ob : obs){
+            if (ob.getY() < y)   // lowest y value
+                y = ob.getY();
+            if (isRed ? ob.getX() < x : ob.getX() > x)
+                x = ob.getX();   // lowest x value for red : greatest x value for blue
+        }
+        y = Math.abs(y);         // make positive
+        x *= -1;                 // negate for correct sign
+
+        return new Pose(x, y, heading);
     }
 
     /**

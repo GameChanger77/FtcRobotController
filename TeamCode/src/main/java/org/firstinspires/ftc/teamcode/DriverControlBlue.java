@@ -51,6 +51,10 @@ public class DriverControlBlue extends OpMode {
         if (gamepad1.y || gamepad2.y) robot.spinner.runAtRPS(1.5, .1); //  Duck spinner test
         else robot.spinner.spinner.setPower(-gamepad2.left_stick_y/3);
 
+        // Sonar relocation test
+        telemetry.addData("SONAR", "RELOCATION TEST");
+        robot.sonar.relocate(pose.getTheta(), 80, false).print(telemetry);
+
         // Reset the pose to the origin.
         if (gamepad1.b)
             gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
