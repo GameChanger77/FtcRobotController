@@ -56,14 +56,9 @@ public class Spinner {
      * Gives the duck spinner a certain amount of power to reach a certain speed.
      * @param rps The revolutions per second of the duck spinner.
      */
-    public void runAtRPS(double rps, double error){
-        double delta = rps - averageVel; // wVelocity;
-        
-        if (delta > error) {
-            power += inc;
-        } else if (delta < -error) {
-            power -= inc;
-        }
+    public void runAtRPS(double rps){
+        double delta = rps - wVelocity;
+        power += delta / 100;
         spinner.setPower(power);
     }
 

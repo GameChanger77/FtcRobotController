@@ -44,7 +44,7 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         //sleep(5000);
         long finalTime = System.currentTimeMillis() + 5_000;
         while (System.currentTimeMillis() <= finalTime){
-            robot.spinner.runAtRPS(1.5, .1);
+            robot.spinner.runAtRPS(1.5);
             robot.spinner.print(telemetry);
         }
 

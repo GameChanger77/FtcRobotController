@@ -51,7 +51,7 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
         //sleep(5000);
         finalTime = System.currentTimeMillis() + 10_000;
         while (System.currentTimeMillis() <= finalTime){
-            robot.spinner.runAtRPS(-1, .1);
+            robot.spinner.runAtRPS(-1);
             robot.spinner.print(telemetry);
         }
 
