@@ -76,8 +76,8 @@ public class Sonar {
             if (isRed ? ob.getX() < x : ob.getX() > x)
                 x = ob.getX();   // lowest x value for red : greatest x value for blue
         }
-        y = Math.abs(y);         // make positive
-        x *= -1;                 // negate for correct sign
+        y = getXComponent(heading, Math.abs(y));         // make positive
+        x = getXComponent(heading, -x);                  // negate for correct sign
 
         return new Pose(x, y, heading);
     }
