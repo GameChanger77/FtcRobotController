@@ -15,7 +15,7 @@ public class Spinner {
     public double power = 0, inc = 0.001;
 
     int oldPos = 0, pos, deltaPos;
-    double oldWVelocity = 0, wVelocity,
+    double oldWVelocity = 0, wVelocity, averageVel = 0,
             oldWAcc = 0, wAcc;
 
     /**
@@ -35,11 +35,12 @@ public class Spinner {
      * Used in the OdometryBase thread to keep track of the velocity of the wheel
      */
     public void update(double interval){
-        pos       = spinner.getCurrentPosition();
-        deltaPos  = pos - oldPos;
-        wVelocity = ((pos - oldPos) / CPR) / interval;  // revolutions per time
-        wAcc      = (wVelocity - oldWVelocity) / interval;
+        pos        = spinner.getCurrentPosition();
+        deltaPos   = pos - oldPos;
+        wVelocity  = ((pos - oldPos) / CPR) / interval;  // revolutions per time
+        wAcc       = (wVelocity - oldWVelocity) / interval;
 
+        averageVel = (wVelocity + oldWVelocity) / 2;     // The average should have more consistency
 
         oldPos = pos;
         oldWVelocity = wVelocity;
@@ -56,7 +57,7 @@ public class Spinner {
      * @param rps The revolutions per second of the duck spinner.
      */
     public void runAtRPS(double rps, double error){
-        double delta = rps - wVelocity;
+        double delta = rps - averageVel; // wVelocity;
         
         if (delta > error) {
             power += inc;
