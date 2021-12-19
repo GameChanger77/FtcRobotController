@@ -41,8 +41,8 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
 
         // Duck Spinner
         long finalTime = System.currentTimeMillis() + 10_000;
-        while(move.goToPose(9, 15, 0, 0.3, 1) && opModeIsActive()){telemetry.update();}
-        while(move.goToPose(7, 9.7, 0, 0.22, 0.5) && System.currentTimeMillis() <= finalTime){ telemetry.update();}
+        while(move.goToPose(9, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
+        while(move.goToPose(7, 9.7, 0, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
 //        move.threePointArc(new Waypoint(-8, 20, 0, 2, 0.3),
 //                           new Waypoint(-2, 15, 90, 0.5, 0.22),
 //                           15_000L, this);

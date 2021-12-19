@@ -47,7 +47,8 @@ public class DriverControlRed extends OpMode {
 
         // Non-Driving functions
         robot.conveyor.power(-gamepad2.right_stick_y);
-        robot.spinner.spinner.setPower(-gamepad2.left_stick_y/2);
+        if (gamepad1.y || gamepad2.y) robot.spinner.runAtRPS(-1, .1); //  Duck spinner test
+        else robot.spinner.spinner.setPower(gamepad2.left_stick_y/3);
 
         // Reset the pose to the origin.
         if (gamepad1.b)
