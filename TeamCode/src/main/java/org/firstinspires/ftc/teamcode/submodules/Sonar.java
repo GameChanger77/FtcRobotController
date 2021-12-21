@@ -46,26 +46,6 @@ public class Sonar {
         telemetry.addData("right range: ", right.getDistance(unit) + rightOffset);
     }
 
-    public Pose relocatePose(Pose robotPose, double cutoff){
-        int i = 0;
-        double x = 0, y = 0;
-
-        for (Pose ob : detectObstacles(new Pose(0,0, robotPose.getTheta()), cutoff)) {
-            if (ob.getX() < 0 && (ob.getTheta() > 0  && ob.getTheta() < 135)){
-                x = -ob.getX();
-            } else if (ob.getX() > 0 && (ob.getTheta() < 0  && ob.getTheta() > -135)){
-                x = Constants.fieldWidth - ob.getX();
-            }
-
-            y = -ob.getY();
-
-
-            i++;
-        }
-
-        return new Pose(x,y,0);
-    }
-
     public Pose relocate(double heading, double cutoff, boolean isRed){
         Pose pose = new Pose(0,0, heading);
         double y = Double.MAX_VALUE;
@@ -101,13 +81,10 @@ public class Sonar {
                 double angle = robotPose.getTheta() + (i * 90);
                 double x = -getYComponent(angle, distance) + robotPose.getX();
                 double y =  getXComponent(angle, distance) + robotPose.getY();
-
                 obs.add(new Pose(x, y, angle));
             }
-
             i++;
         }
-
         return obs;
     }
 

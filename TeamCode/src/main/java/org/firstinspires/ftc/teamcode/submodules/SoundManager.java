@@ -65,9 +65,8 @@ public class SoundManager {
         if (autoAlignID != 0)
             autoAlignFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, autoAlignID);
 
-//        if (rickrollID != 0)
-//            rickrollFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, rickrollID);
-            rickrollFound = true;
+        if (rickrollID != 0)
+            rickrollFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, rickrollID);
     }
 
     public void playSilver(){
