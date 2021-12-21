@@ -29,8 +29,8 @@ public class Sonar {
 
     DistanceUnit unit = DistanceUnit.INCH;
 
-    public static final double frontOffset = 4.75, leftOffset = 3.875,
-            backOffset = 4.75, rightOffset = 3.875;
+    public static final double frontOffset = 4.75,  leftOffset = 3.875 + 2,
+                                backOffset = 4.75, rightOffset = 3.875 + 2;
 
     public void init(HardwareMap hm){
         front = hm.get(Rev2mDistanceSensor.class, "front");
@@ -67,7 +67,7 @@ public class Sonar {
     }
 
     public Pose relocate(double heading, double cutoff, boolean isRed){
-        Pose pose = new Pose(0,0,heading);
+        Pose pose = new Pose(0,0, heading);
         double y = Double.MAX_VALUE;
         double x = 0;
 
