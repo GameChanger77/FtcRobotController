@@ -76,8 +76,9 @@ public class Sonar {
             if (isRed ? ob.getX() < x : ob.getX() > x)
                 x = ob.getX();   // lowest x value for red : greatest x value for blue
         }
-        y = getXComponent(heading, Math.abs(y));         // make positive
-        x = getXComponent(heading, -x);                  // negate for correct sign
+
+        y = -y;                  // negate for correct sign
+        x = -x;                  // negate for correct sign
 
         return new Pose(x, y, heading);
     }
@@ -95,8 +96,8 @@ public class Sonar {
         for (double distance : getDistances()){
             if (distance <= cutoff){
                 double angle = robotPose.getTheta() + (i * 90);
-                double x = getYComponent(angle, -distance) + robotPose.getX();
-                double y = getXComponent(angle,  distance) + robotPose.getY();
+                double x = -getYComponent(angle, distance) + robotPose.getX();
+                double y =  getXComponent(angle, distance) + robotPose.getY();
 
                 obs.add(new Pose(x, y, angle));
             }

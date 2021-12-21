@@ -34,6 +34,7 @@ public class DriverControlBlue extends OpMode {
         robot.init(hardwareMap);
         gps.init(hardwareMap);
         gps.showMovement = false;
+        gps.showPosition = false;
         gpsThread.start();
         gt.addData("/> STATUS", "INIT COMPLETE");
         gt.print();

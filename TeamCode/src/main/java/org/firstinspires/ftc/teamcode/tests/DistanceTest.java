@@ -22,11 +22,14 @@ public class DistanceTest extends OpMode {
     MovementManager move = new MovementManager(robot, gt, gps, col, telemetry);
     Pose pose;
 
+    boolean isRed = false;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
         gps.init(hardwareMap);
         gps.showMovement = false;
+        gps.showPosition = false;
         gpsThread.start();
         gt.addData("/> STATUS", "INIT COMPLETE");
         gt.print();
@@ -39,9 +42,16 @@ public class DistanceTest extends OpMode {
         drive();
         robot.sonar.printDistance(telemetry);
 
-//        for (Pose obs : sonar.detectObstacles(gps.getRobotPose(), 200)){
-//            obs.print(gt);
-//        }
+        for (Pose obs : robot.sonar.detectObstacles(gps.getRobotPose(), 200)){
+            obs.print(telemetry);
+        }
+
+        if (gamepad1.b) isRed = true;
+        if (gamepad1.x) isRed = false;
+
+        // Sonar relocation test
+        telemetry.addData("SONAR", "RELOCATION TEST " + isRed);
+        robot.sonar.relocate(pose.getTheta(), 80, isRed).print(telemetry);
 
         //gt.print();
         //telemetry.update();
