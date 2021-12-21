@@ -12,6 +12,7 @@ public class SoundManager {
     private boolean trainingWheelsFound;
     private boolean adminOverrideFound;
     private boolean autoAlignFound;
+    private boolean rickrollFound;
 
     private int silverSoundID;
     private int goldSoundID;
@@ -20,6 +21,7 @@ public class SoundManager {
     private int trainingWheelsID;
     private int adminOverrideID;
     private int autoAlignID;
+    private int rickrollID;
 
     HardwareMap hardwareMap;
 
@@ -31,13 +33,14 @@ public class SoundManager {
         this.hardwareMap = hardwareMap;
 
         // Determine Resource IDs for sounds built into the RC application.
-        silverSoundID  = hardwareMap.appContext.getResources().getIdentifier("silver", "raw", hardwareMap.appContext.getPackageName());
-        goldSoundID    = hardwareMap.appContext.getResources().getIdentifier("gold",   "raw", hardwareMap.appContext.getPackageName());
-        autoCompleteId = hardwareMap.appContext.getResources().getIdentifier("auto_complete",   "raw", hardwareMap.appContext.getPackageName());
-        robotInitID    = hardwareMap.appContext.getResources().getIdentifier("robot_init",   "raw", hardwareMap.appContext.getPackageName());
-        trainingWheelsID    = hardwareMap.appContext.getResources().getIdentifier("training_wheels",   "raw", hardwareMap.appContext.getPackageName());
-        adminOverrideID    = hardwareMap.appContext.getResources().getIdentifier("admin_override",   "raw", hardwareMap.appContext.getPackageName());
-        autoAlignID    = hardwareMap.appContext.getResources().getIdentifier("auto_alignment",   "raw", hardwareMap.appContext.getPackageName());
+        silverSoundID     = hardwareMap.appContext.getResources().getIdentifier("silver", "raw", hardwareMap.appContext.getPackageName());
+        goldSoundID       = hardwareMap.appContext.getResources().getIdentifier("gold",   "raw", hardwareMap.appContext.getPackageName());
+        autoCompleteId    = hardwareMap.appContext.getResources().getIdentifier("auto_complete",   "raw", hardwareMap.appContext.getPackageName());
+        robotInitID       = hardwareMap.appContext.getResources().getIdentifier("robot_init",   "raw", hardwareMap.appContext.getPackageName());
+        trainingWheelsID  = hardwareMap.appContext.getResources().getIdentifier("training_wheels",   "raw", hardwareMap.appContext.getPackageName());
+        adminOverrideID   = hardwareMap.appContext.getResources().getIdentifier("admin_override",   "raw", hardwareMap.appContext.getPackageName());
+        autoAlignID       = hardwareMap.appContext.getResources().getIdentifier("auto_alignment",   "raw", hardwareMap.appContext.getPackageName());
+        rickrollID        = hardwareMap.appContext.getResources().getIdentifier("rickroll",   "raw", hardwareMap.appContext.getPackageName());
 
         // Determine if sound resources are found.
         // Note: Preloading is NOT required, but it's a good way to verify all your sounds are available before you run.
@@ -61,6 +64,9 @@ public class SoundManager {
 
         if (autoAlignID != 0)
             autoAlignFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, autoAlignID);
+
+        if (rickrollID != 0)
+            rickrollFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, rickrollID);
     }
 
     public void playSilver(){
@@ -89,6 +95,10 @@ public class SoundManager {
 
     public void playAutoAlign(){
         if (autoAlignFound) SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, autoAlignID);
+    }
+
+    public void playRickroll(){
+        if (rickrollFound) SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, rickrollID);
     }
 
 }

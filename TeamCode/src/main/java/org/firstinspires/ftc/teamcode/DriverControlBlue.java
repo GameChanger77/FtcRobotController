@@ -140,7 +140,7 @@ public class DriverControlBlue extends OpMode {
         if(gamepad1.dpad_right && !wasDpRight && gamepad1.x) {
             admin = false;
             trainingWheels = true;
-            robot.sound.playTrainingWheels();
+            robot.sound.playRickroll(); //playTrainingWheels();
         }
 
         if (gamepad1.dpad_left && !wasDpLeft & gamepad1.x){
