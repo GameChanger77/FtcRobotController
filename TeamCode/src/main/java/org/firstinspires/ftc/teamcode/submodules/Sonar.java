@@ -29,6 +29,9 @@ public class Sonar {
 
     DistanceUnit unit = DistanceUnit.INCH;
 
+    public static final double frontOffset = 4.75, leftOffset = 3.875,
+            backOffset = 4.75, rightOffset = 3.875;
+
     public void init(HardwareMap hm){
         front = hm.get(Rev2mDistanceSensor.class, "front");
         left = hm.get(ModernRoboticsI2cRangeSensor.class, "left");
@@ -37,10 +40,10 @@ public class Sonar {
     }
 
     public void printDistance(Telemetry telemetry){
-        telemetry.addData("front range: ", front.getDistance(unit));
-        telemetry.addData("left range: ", left.getDistance(unit));
-        telemetry.addData("back range: ", back.getDistance(unit));
-        telemetry.addData("right range: ", right.getDistance(unit));
+        telemetry.addData("front range: ", front.getDistance(unit) + frontOffset);
+        telemetry.addData("left  range: ", left.getDistance(unit)  + leftOffset);
+        telemetry.addData("back  range: ", back.getDistance(unit)  + backOffset);
+        telemetry.addData("right range: ", right.getDistance(unit) + rightOffset);
     }
 
     public Pose relocatePose(Pose robotPose, double cutoff){
@@ -113,10 +116,10 @@ public class Sonar {
      * @return in this order {front, left, back, right}
      */
     double[] getDistances(){
-        return new double[] {front.getDistance(unit),
-                             left.getDistance(unit),
-                             back.getDistance(unit),
-                             right.getDistance(unit)};
+        return new double[] {front.getDistance(unit) + frontOffset,
+                             left.getDistance(unit)  + leftOffset,
+                             back.getDistance(unit)  + backOffset,
+                             right.getDistance(unit) + rightOffset};
     }
 
     /**
