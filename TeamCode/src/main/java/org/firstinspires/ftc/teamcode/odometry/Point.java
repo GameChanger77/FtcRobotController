@@ -10,4 +10,14 @@ public class Point {
         this.r = r;
     }
 
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.r = 0;
+    }
+
+    public Pose toPose(){
+        return new Pose(x, y, r);
+    }
+
 }

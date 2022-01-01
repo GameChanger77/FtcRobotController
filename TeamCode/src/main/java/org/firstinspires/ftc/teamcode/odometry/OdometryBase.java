@@ -32,12 +32,15 @@ public class OdometryBase implements Runnable {
 
     private long time, previousTime = System.currentTimeMillis();
 
+    public OdometryMovement move;
+
     /**
      * Provide the RobotHardware instance
      * @param robot Robot Hardware instance
      */
     public OdometryBase(RobotHardware robot) {
         this.robot = robot;
+        move = new OdometryMovement(this, robot);
     }
 
     /**
@@ -47,6 +50,7 @@ public class OdometryBase implements Runnable {
     public OdometryBase(RobotHardware robot, Pose startPose) {
         this.robotPose = startPose;
         this.robot = robot;
+        move = new OdometryMovement(this, robot);
     }
 
     /**
