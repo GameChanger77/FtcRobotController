@@ -6,16 +6,23 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Constants;
 
-public class Gyro {
+public class Gyro implements Runnable {
     private BNO055IMU imu;
 
     public double offset = 0;
+    double heading = 0;
+
+    private boolean isRunning = true;
+
+    void updateHeading(){
+        heading = imu.getAngularOrientation().firstAngle - offset; // gets angle Z
+    }
 
     /**
      * @return IMU heading in degrees where 0 is forward, 90 is to the left, -90 is to the right
      */
     public double getHeading(){
-        return imu.getAngularOrientation().firstAngle - offset; // gets angle Z
+        return heading;
     }
 
     /**
@@ -34,4 +41,14 @@ public class Gyro {
         imu = hardwareMap.get(BNO055IMU.class, Constants.gyro);
         imu.initialize(parameters);
     }
+
+    @Override
+    public void run() {
+        while (isRunning){
+            updateHeading();
+        }
+    }
+
+    public void stop(){ isRunning = false; }
+
 }
