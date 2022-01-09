@@ -28,7 +28,7 @@ public class OdometryBase implements Runnable {
                   xAcc = 0, yAcc = 0, wAcc = 0;
 
     private boolean isRunning = true;
-    public boolean showPosition = true, showMovement = true, showAllData = false;
+    public boolean showPosition = true, showMovement = false, showAllData = false;
 
     private long time, previousTime = System.currentTimeMillis();
 
@@ -96,7 +96,7 @@ public class OdometryBase implements Runnable {
         vlPos = vlMultiplier * vlEncoder.getCurrentPosition() / CPI - vlPosLast;
         vrPos = vrMultiplier * vrEncoder.getCurrentPosition() / CPI - vrPosLast;
         hPos = hMultiplier * hEncoder.getCurrentPosition() / CPI - horPosLast;
-        vPos = (vlPos + vrPos) / 2;
+        vPos = vlPos; // (vlPos + vrPos) / 2;
 
         double heading = robot.gyro.getHeading();
 
@@ -137,8 +137,9 @@ public class OdometryBase implements Runnable {
         if (showPosition)
             robotPose.print(robot.gt);
 
+        robot.gt.addData("Delta Time: ", deltaT * 1000 + "ms");
+
         if (showMovement) {
-            robot.gt.addData("Delta Time: ", deltaT * 1000 + "ms");
 
             // Print the robot's velocity to the telemetry
 
@@ -199,7 +200,6 @@ public class OdometryBase implements Runnable {
      */
     public void stop(){
         isRunning = false;
-        robot.spinner.stop();
         robot.gyro.stop();
     }
 

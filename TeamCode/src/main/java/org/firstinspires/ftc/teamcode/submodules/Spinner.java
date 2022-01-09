@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Spinner implements Runnable {
+public class Spinner {
 
     public DcMotor spinner;
     public String name = "spinner";
@@ -17,9 +17,6 @@ public class Spinner implements Runnable {
     int oldPos = 0, pos, deltaPos;
     double oldWVelocity = 0, wVelocity, wAcc;
 
-    private boolean isRunning = true;
-
-    long time = System.currentTimeMillis(), previousTime = time, deltaTime = 0;
 
     /**
      * Initialize and setup the duck carousel spinner.
@@ -63,19 +60,5 @@ public class Spinner implements Runnable {
         power += delta / 100;
         spinner.setPower(power);
     }
-
-    @Override
-    public void run() {
-        previousTime = time;
-        while (isRunning){
-            time = System.currentTimeMillis();
-            deltaTime = time - previousTime;
-            update(deltaTime);
-
-            previousTime = time;
-        }
-    }
-
-    public void stop(){ isRunning = false; }
 
 }

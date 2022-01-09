@@ -16,7 +16,6 @@ public class RobotHardware {
     public Sonar sonar = new Sonar();
 
     public Thread gyroThread = new Thread(gyro);
-    public Thread spinnerThread = new Thread(spinner);
 
     public VoltageSensor voltage;
 
@@ -43,7 +42,6 @@ public class RobotHardware {
         sonar.init(hm);
 
         gyroThread.start();
-        spinnerThread.start();
 
         voltage = hm.get(VoltageSensor.class, "Control Hub");
 
