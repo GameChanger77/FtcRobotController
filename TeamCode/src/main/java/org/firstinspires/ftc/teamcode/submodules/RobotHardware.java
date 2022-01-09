@@ -10,11 +10,14 @@ public class RobotHardware {
 
     public Chassis chassis = new Chassis();
     public Gyro gyro = new Gyro();
-    public Thread gyroThread = new Thread(gyro);
     public Conveyor conveyor = new Conveyor();
     public Spinner spinner = new Spinner();
     public SoundManager sound = new SoundManager();
     public Sonar sonar = new Sonar();
+
+    public Thread gyroThread = new Thread(gyro);
+    public Thread spinnerThread = new Thread(spinner);
+
     public VoltageSensor voltage;
 
     public GlobalTelemetry gt;
@@ -40,6 +43,7 @@ public class RobotHardware {
         sonar.init(hm);
 
         gyroThread.start();
+        spinnerThread.start();
 
         voltage = hm.get(VoltageSensor.class, "Control Hub");
 

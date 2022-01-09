@@ -6,17 +6,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Spinner {
+public class Spinner implements Runnable {
 
     public DcMotor spinner;
     public String name = "spinner";
     final double CPR = 140;
 
-    public double power = 0, inc = 0.001;
+    public double power = 0;
 
     int oldPos = 0, pos, deltaPos;
-    double oldWVelocity = 0, wVelocity, averageVel = 0,
-            oldWAcc = 0, wAcc;
+    double oldWVelocity = 0, wVelocity, wAcc;
+
+    private boolean isRunning = true;
+
+    long time = System.currentTimeMillis(), previousTime = time, deltaTime = 0;
 
     /**
      * Initialize and setup the duck carousel spinner.
@@ -33,14 +36,13 @@ public class Spinner {
 
     /**
      * Used in the OdometryBase thread to keep track of the velocity of the wheel
+     * It is being switched to a spinner specific thread for more accurate detection
      */
     public void update(double interval){
         pos        = spinner.getCurrentPosition();
         deltaPos   = pos - oldPos;
         wVelocity  = ((pos - oldPos) / CPR) / interval;  // revolutions per time
         wAcc       = (wVelocity - oldWVelocity) / interval;
-
-        averageVel = (wVelocity + oldWVelocity) / 2;     // The average should have more consistency
 
         oldPos = pos;
         oldWVelocity = wVelocity;
@@ -61,5 +63,19 @@ public class Spinner {
         power += delta / 100;
         spinner.setPower(power);
     }
+
+    @Override
+    public void run() {
+        previousTime = time;
+        while (isRunning){
+            time = System.currentTimeMillis();
+            deltaTime = time - previousTime;
+            update(deltaTime);
+
+            previousTime = time;
+        }
+    }
+
+    public void stop(){ isRunning = false; }
 
 }

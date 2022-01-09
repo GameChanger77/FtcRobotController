@@ -197,7 +197,11 @@ public class OdometryBase implements Runnable {
     /**
      * Stops the position update thread
      */
-    public void stop(){ isRunning = false; }
+    public void stop(){
+        isRunning = false;
+        robot.spinner.stop();
+        robot.gyro.stop();
+    }
 
     /**
      * Gets the forward (y) component of a vector with a certain angle in degrees and a magnitude
