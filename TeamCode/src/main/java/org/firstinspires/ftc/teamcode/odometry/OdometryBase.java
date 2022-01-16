@@ -96,7 +96,7 @@ public class OdometryBase implements Runnable {
         vlPos = vlMultiplier * vlEncoder.getCurrentPosition() / CPI - vlPosLast;
         vrPos = vrMultiplier * vrEncoder.getCurrentPosition() / CPI - vrPosLast;
         hPos = hMultiplier * hEncoder.getCurrentPosition() / CPI - horPosLast;
-        vPos = vlPos; // (vlPos + vrPos) / 2;
+        vPos = (vlPos + vrPos) / 2;
 
         double heading = robot.gyro.getHeading();
 

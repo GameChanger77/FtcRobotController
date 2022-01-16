@@ -8,8 +8,7 @@ import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Disabled
-@Autonomous(name="Power%Red%Pos1%Storage%Duck:no", group="Red")
+@Autonomous(name="Power%Red%Pos1%Storage%Duck:Yes", group="Red")
 public class Power_Red_Pos1_Storage extends LinearOpMode {
 
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
@@ -22,11 +21,23 @@ public class Power_Red_Pos1_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        move.fieldDrive(-1, 1, move.powerToAngle(0, 1), 0.3);
-        sleep(2500);
+        move.fieldDrive(-1, 0.6, move.powerToAngle(0, 1), 0.3);
+        sleep(3000);
+        move.fieldDrive(-1, 0, move.powerToAngle(0, 1), 0.3);
+        sleep(2000);
+        move.fieldDrive(0, -1, move.powerToAngle(0, 1), 0.2);
+        sleep(1500);
         robot.chassis.stop();
-        while (opModeIsActive() && getRuntime() < 10){
-            move.fieldDrive(0,0,move.powerToAngle(0,1), 0.25);
+
+        robot.spinner.spinner.setPower(-0.20);
+        sleep(6000);
+        robot.spinner.spinner.setPower(0);
+
+        move.fieldDrive(0, 1, move.powerToAngle(0, 1), 0.2);
+        sleep(2000);
+
+        while (opModeIsActive() && getRuntime() < 28){
+            robot.chassis.move(0,0,move.powerToAngle(0,1) * 1.25, 0.25);
         }
         robot.chassis.stop();
 
