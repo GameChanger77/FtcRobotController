@@ -11,6 +11,7 @@ public class RobotHardware {
     public Chassis chassis = new Chassis();
     public Gyro gyro = new Gyro();
     public Conveyor conveyor = new Conveyor();
+    public Elevator elevator = new Elevator();
     public Spinner spinner = new Spinner();
     public SoundManager sound = new SoundManager();
     public Sonar sonar = new Sonar();
@@ -37,6 +38,7 @@ public class RobotHardware {
         chassis.init(hm);
         gyro.init(hm);
         conveyor.init(hm);
+        elevator.init(hm);
         spinner.init(hm);
         sound.init(hm);
         sonar.init(hm);
