@@ -37,13 +37,13 @@ public class RobotHardware {
     public void init(HardwareMap hm){
         chassis.init(hm);
         gyro.init(hm);
-        conveyor.init(hm);
+        // conveyor.init(hm);
         elevator.init(hm);
         spinner.init(hm);
         sound.init(hm);
         sonar.init(hm);
 
-        gyroThread.start();
+//        gyroThread.start();
 
         voltage = hm.get(VoltageSensor.class, "Control Hub");
 

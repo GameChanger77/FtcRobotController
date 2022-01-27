@@ -60,9 +60,9 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         while (move.goToPose(-10, 30, 0.2, 1, 0, 0.25) && opModeIsActive()){
             telemetry.update();
         }
-        robot.conveyor.power(1);
+        // robot.conveyor.power(1);
         sleep(3000);
-        robot.conveyor.power(0);
+        // robot.conveyor.power(0);
 
 //        while (opModeIsActive()) {
 //            robot.conveyor.power(0.5);

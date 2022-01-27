@@ -15,21 +15,21 @@ public class Conveyor {
      * Initialize and setup the conveyor motor.
      * @param hm The hardware map to use.
      */
-    public void init(HardwareMap hm){
-        top = hm.dcMotor.get(name);
-
-        top.setDirection(DcMotorSimple.Direction.REVERSE);
-        top.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        top.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        top.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        bottom = hm.dcMotor.get(name2);
-
-        bottom.setDirection(DcMotorSimple.Direction.FORWARD);
-        bottom.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bottom.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
+//    public void init(HardwareMap hm){
+//        top = hm.dcMotor.get(name);
+//
+//        top.setDirection(DcMotorSimple.Direction.REVERSE);
+//        top.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        top.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        top.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        bottom = hm.dcMotor.get(name2);
+//
+//        bottom.setDirection(DcMotorSimple.Direction.FORWARD);
+//        bottom.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        bottom.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        bottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//    }
 
     /**
      * Runs both motors

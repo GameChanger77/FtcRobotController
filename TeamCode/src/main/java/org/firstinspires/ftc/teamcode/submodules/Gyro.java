@@ -14,8 +14,9 @@ public class Gyro implements Runnable {
 
     private boolean isRunning = true;
 
-    void updateHeading(){
+    public double updateHeading(){
         heading = imu.getAngularOrientation().firstAngle - offset; // gets angle Z
+        return heading;
     }
 
     /**

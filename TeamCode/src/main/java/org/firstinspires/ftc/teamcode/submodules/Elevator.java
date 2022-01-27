@@ -13,15 +13,14 @@ public class Elevator {
     public CRServo intake;
 
     // Configuration variables
-    public double pickup = 0,
-                  level = 0;
+    public double pickup = 0.5,
+                  level = 0.2;
 
     public void init(HardwareMap hm){
         lift = hm.dcMotor.get("linear_slide");
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         angle = hm.servo.get("angle");
 
         intake = hm.crservo.get("intake");

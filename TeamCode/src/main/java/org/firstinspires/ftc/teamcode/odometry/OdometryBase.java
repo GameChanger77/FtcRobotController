@@ -98,7 +98,7 @@ public class OdometryBase implements Runnable {
         hPos = hMultiplier * hEncoder.getCurrentPosition() / CPI - horPosLast;
         vPos = (vlPos + vrPos) / 2;
 
-        double heading = robot.gyro.getHeading();
+        double heading = robot.gyro.updateHeading();
 
         // The horizontal encoder is 90 degrees from the other encoders so we need to use the co function of what the other encoders use
         double deltaX =  -getYComponent(heading, vPos) + getXComponent(heading, hPos);  // Forward (Y) change
