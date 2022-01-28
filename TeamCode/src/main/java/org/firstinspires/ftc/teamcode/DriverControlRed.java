@@ -46,9 +46,23 @@ public class DriverControlRed extends OpMode {
         drive();
 
         // Non-Driving functions
-        // robot.conveyor.power(-gamepad2.right_stick_y);
+        robot.elevator.lift(gamepad1.left_trigger - gamepad1.right_trigger);
+        if (gamepad1.x) robot.elevator.pickup();
+        if (gamepad1.b) robot.elevator.level();
+
+        robot.elevator.intake(gamepad1.left_bumper ? -1 :
+                gamepad1.right_bumper ? 1 : 0);
+
+        robot.spinner.print(telemetry);
+        telemetry.addData("/> Elevator", robot.elevator.lift.getCurrentPosition());
+
+        robot.spinner.print(telemetry);
         if (gamepad1.y || gamepad2.y) robot.spinner.runAtRPS(-1); //  Duck spinner test
-        else robot.spinner.spinner.setPower(gamepad2.left_stick_y/6);
+        else robot.spinner.spinner.setPower(gamepad2.left_stick_y/4);
+
+        // Sonar relocation test
+        telemetry.addData("SONAR", "RELOCATION TEST");
+        robot.sonar.relocate(pose.getTheta(), 80, false).print(telemetry);
 
         // Reset the pose to the origin.
         if (gamepad1.b)

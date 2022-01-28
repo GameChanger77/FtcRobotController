@@ -33,12 +33,6 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-//        while (move.goToPose(7, 15, 0, 0.3, 1) && opModeIsActive()) {
-//        }
-//        while (move.goToPose(7, 15, 0, 0.2, 0.5) && opModeIsActive()) {
-//            telemetry.update();
-//        }
-
         // Duck Spinner
         long finalTime = System.currentTimeMillis() + 10_000;
         while(move.goToPose(9, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
@@ -47,8 +41,7 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
 //                           new Waypoint(-2, 15, 90, 0.5, 0.22),
 //                           15_000L, this);
         robot.chassis.stop();
-        //robot.spinner.spinner.setPower(0.25);
-        //sleep(5000);
+
         finalTime = System.currentTimeMillis() + 10_000;
         while (System.currentTimeMillis() <= finalTime){
             robot.spinner.runAtRPS(-1);
@@ -65,10 +58,7 @@ public class Red_Pos1_Duck_Storage extends LinearOpMode {
         while (move.goToPose(10, 27, 0.2, 1, 0, 0.25) && opModeIsActive()){
             telemetry.update();
         }
-        robot.conveyor.power(1);
         sleep(3000);
-        robot.conveyor.power(0);
-
 
         robot.chassis.stop();
         gps.stop();

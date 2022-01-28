@@ -48,7 +48,6 @@ public class SingleDrive extends OpMode {
         drive();
 
         // Non-Driving functions
-        // robot.conveyor.power(gamepad1.right_trigger - gamepad1.left_trigger);
         robot.elevator.lift(gamepad1.left_trigger - gamepad1.right_trigger);
         if (gamepad1.x) robot.elevator.pickup();
         if (gamepad1.b) robot.elevator.level();
