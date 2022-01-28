@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.odometry;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
@@ -11,19 +12,25 @@ public class CollisionManager {
     public ArrayList<Point> obstacles = new ArrayList<>();
 
     RobotHardware robot;
-    GlobalTelemetry gt;
+    Telemetry t;
     OdometryBase gps;
+    MovementManager move;
 
-    public CollisionManager(RobotHardware robot, GlobalTelemetry gt, OdometryBase gps) {
+    public CollisionManager(RobotHardware robot, Telemetry t, OdometryBase gps, MovementManager move) {
         this.robot = robot;
-        this.gt = gt;
+        this.t = t;
         this.gps = gps;
+        this.move = move;
 
         init();
     }
 
     void init(){
         obstacles.add(new Point(0,0,0));
+    }
+
+    public void enterWarehouseBlue(){
+
     }
 
 
@@ -36,12 +43,8 @@ public class CollisionManager {
     public boolean detectWall(double x, double y){
         Pose pose = gps.getRobotPose();
 
-        if (x > Constants.X_BOUND_HIGH || x < Constants.X_BOUND_LOW ||
-            y > Constants.Y_BOUND_HIGH || y < Constants.Y_BOUND_LOW){
-            return true;
-        }
-
-        return false;
+        return x > Constants.X_BOUND_HIGH || x < Constants.X_BOUND_LOW ||
+                y > Constants.Y_BOUND_HIGH || y < Constants.Y_BOUND_LOW;
     }
 
 }

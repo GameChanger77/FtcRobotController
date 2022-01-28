@@ -12,8 +12,9 @@ public class MovementManager {
     RobotHardware robot;
     GlobalTelemetry gt;
     OdometryBase gps;
-    CollisionManager col;
     Telemetry telemetry;
+
+    public CollisionManager collisionManager;
 
     public double defaultDistanceScale = 5, defaultAngleError = 1.5, defaultAnglePower = 0.4;
     public long finalTime = 0;
@@ -24,23 +25,22 @@ public class MovementManager {
      * @param robot The RobotHardware object
      * @param gt The GlobalTelemetry object
      * @param gps The OdometryBase object
-     * @param col The CollisionManager object
      */
     public MovementManager(RobotHardware robot, GlobalTelemetry gt,
-                           OdometryBase gps, CollisionManager col, Telemetry telemetry) {
+                           OdometryBase gps, Telemetry telemetry) {
         this.robot = robot;
         this.gt = gt;
         this.gps = gps;
-        this.col = col;
         this.telemetry = telemetry;
+
+        collisionManager = new CollisionManager(robot, telemetry, gps, this);
     }
 
     public MovementManager(RobotHardware robot, GlobalTelemetry gt,
-                           OdometryBase gps, CollisionManager col) {
+                           OdometryBase gps) {
         this.robot = robot;
         this.gt = gt;
         this.gps = gps;
-        this.col = col;
     }
 
     /**
