@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.odometry;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
@@ -29,10 +33,21 @@ public class CollisionManager {
         obstacles.add(new Point(0,0,0));
     }
 
-    public void enterWarehouseBlue(){
+    public void enterWarehouseBlue(LinearOpMode opMode){
+        Waypoint target = new Waypoint(-115, 1, 0,  2, 0.3);
+        Waypoint midstep = new Waypoint(0,0,0,0,0); // to be measured
 
+        ArrayList<Pose> obs = new ArrayList<>();
+
+        while (move.goToWaypoint(midstep, 15, 3) && opMode.opModeIsActive())
+            obs = robot.sonar.detectObstacles(gps.getRobotPose(), 30);
     }
 
+    public boolean isObstacleBlockingPath(Pose obs, Pose target) {
+        Pose robot = gps.getRobotPose();
+
+        return true;
+    }
 
     /**
      * Detects if the point at (X, Y), is outside the boundary of the field.

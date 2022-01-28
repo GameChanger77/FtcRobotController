@@ -69,7 +69,7 @@ public class Sonar {
     /**
      * Plots where the detected obstacles are based on the distances and the robot's pose
      * @param robotPose The robots (x, y, 0)
-     * @param cutoff how far away do we start ignoring values
+     * @param cutoff how far away do we start ignoring values (inches)
      * @return an ArrayList of poses with the obstacles x, y, and O (angle to the object)
      */
     public ArrayList<Pose> detectObstacles(Pose robotPose, double cutoff){
