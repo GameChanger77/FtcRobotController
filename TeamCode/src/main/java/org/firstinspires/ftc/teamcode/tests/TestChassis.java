@@ -49,7 +49,7 @@ public class TestChassis extends OpMode {
         }
 
         // Non-Driving functions
-        robot.conveyor.top.setPower(-gamepad2.right_stick_y);
+        //robot.conveyor.top.setPower(-gamepad2.right_stick_y);
         robot.spinner.spinner.setPower(-gamepad2.left_stick_y);
 
         // Reset the pose to the origin.

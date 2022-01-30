@@ -18,8 +18,7 @@ public class DistanceTest extends OpMode {
     RobotHardware robot = new RobotHardware(gt);
     OdometryBase gps = new OdometryBase(robot);
     Thread gpsThread = new Thread(gps);
-    CollisionManager col = new CollisionManager(robot, gt, gps);
-    MovementManager move = new MovementManager(robot, gt, gps, col, telemetry);
+    MovementManager move = new MovementManager(robot, gt, gps, telemetry);
     Pose pose;
 
     boolean isRed = false;

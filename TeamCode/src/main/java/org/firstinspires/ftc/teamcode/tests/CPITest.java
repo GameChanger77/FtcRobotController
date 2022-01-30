@@ -14,8 +14,7 @@ public class CPITest extends LinearOpMode {
     GlobalTelemetry gt = new GlobalTelemetry(telemetry);
     RobotHardware robot = new RobotHardware(gt);
     OdometryBase gps = new OdometryBase(robot);
-    CollisionManager col = new CollisionManager(robot, gt, gps);
-    MovementManager move = new MovementManager(robot, gt, gps, col);
+    MovementManager move = new MovementManager(robot, gt, gps);
 
     @Override
     public void runOpMode() throws InterruptedException {
