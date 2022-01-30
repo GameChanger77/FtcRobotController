@@ -43,10 +43,55 @@ public class CollisionManager {
             obs = robot.sonar.detectObstacles(gps.getRobotPose(), 30);
     }
 
-    public boolean isObstacleBlockingPath(Pose obs, Pose target) {
-        Pose robot = gps.getRobotPose();
+    /**
+     * Detects if there is an obstacle in the path of the robot
+     * @param obs The obstacle's pose
+     * @param target The target pose
+     * @param degreeError The amount of range on either side of the angle to the obstacle
+     * @return true if the obstacle is blocking the path false otherwise.
+     */
+    public boolean isObstacleBlockingPath(Pose obs, Pose target, double degreeError) {
+        Pose rPose = gps.getRobotPose();
+        double targetDistance = distanceToPoint(rPose, target);
+        double obsDistance = distanceToPoint(rPose, target);
 
-        return true;
+        double obsAngle = angleToPoint(rPose, obs);
+        double targetAngle = angleToPoint(rPose, target);
+        double minAngle = targetAngle - degreeError;
+        double maxAngle = targetAngle + degreeError;
+
+        return ((obsDistance <= targetDistance) && // Within distance
+                ((obsAngle <= maxAngle) && (obsAngle >= minAngle))); // Within angle
+    }
+
+    /**
+     * Calculates a new point to avoid an obstacle if the obstacle is blocking the robot's path.
+     * If the obstacle is not in the way then it returns the original target position.
+     * @param obs The obstacle's pose
+     * @param target The target pose
+     * @param avoidDistance The amount of distance to pass the obstacle with
+     * @return The target point or a new point around the obstacle
+     */
+    public Pose genericAvoid(Pose obs, Pose target, double avoidDistance){
+        if (isObstacleBlockingPath(obs, target, 5)) return target;
+
+        Pose rPose = gps.getRobotPose();
+
+        double targetAngle = angleToPoint(rPose, target);
+        double obsAngle = angleToPoint(rPose, obs);
+
+        avoidDistance *= (obsAngle >= targetAngle) ? 1 : -1;
+
+        Pose pose = new Pose(obs.x - Math.cos(obsAngle) * avoidDistance,
+                             obs.y + Math.sin(obsAngle) * avoidDistance,
+                                target.getTheta());
+
+//        if (detectWall(pose.x, pose.y))
+//            pose = new Pose(obs.x - Math.cos(obsAngle) * avoidDistance,
+//                            obs.y + Math.sin(obsAngle) * avoidDistance,
+//                               target.getTheta());
+
+        return pose;
     }
 
     /**
@@ -62,4 +107,23 @@ public class CollisionManager {
                 y > Constants.Y_BOUND_HIGH || y < Constants.Y_BOUND_LOW;
     }
 
+    /**
+     * Returns the distance to a point
+     * @param start
+     * @param target
+     * @return
+     */
+    public double distanceToPoint(Pose start, Pose target){
+        return Math.hypot(target.x - start.x, target.y - start.y);
+    }
+
+    /**
+     * Returns the angle to a point
+     * @param start
+     * @param target
+     * @return
+     */
+    public double angleToPoint(Pose start, Pose target){
+        return Math.toDegrees(Math.atan2(target.y - start.y, target.x - start.x));
+    }
 }
