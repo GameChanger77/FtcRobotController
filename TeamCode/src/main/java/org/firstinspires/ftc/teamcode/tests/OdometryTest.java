@@ -18,7 +18,7 @@ public class OdometryTest extends LinearOpMode {
     public RobotHardware robot = new RobotHardware(gt);
     public OdometryBase gps = new OdometryBase(robot, new Pose(0,0,0));
     Thread gpsThread = new Thread(gps);
-    MovementManager move = new MovementManager(robot, gt, gps);
+    MovementManager move = new MovementManager(robot, gt, gps, telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
