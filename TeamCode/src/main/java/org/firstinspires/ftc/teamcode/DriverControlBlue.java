@@ -108,8 +108,8 @@ public class DriverControlBlue extends OpMode {
     }
 
     void drive(){
-        power = .25d; // Set the chassis speed
-        if(gamepad1.right_trigger > .25)
+        power = .3d; // Set the chassis speed
+        if(gamepad1.right_trigger > .3)
             power = gamepad1.right_trigger * (trainingWheels ? 0.3 : 1);
 
         if (fieldDrive) // Make the chassis move relative to the field.
