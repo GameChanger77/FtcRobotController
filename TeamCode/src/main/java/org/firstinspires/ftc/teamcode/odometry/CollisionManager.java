@@ -72,8 +72,8 @@ public class CollisionManager {
      * @param avoidDistance The amount of distance to pass the obstacle with
      * @return The target point or a new point around the obstacle
      */
-    public Pose genericAvoid(Pose obs, Pose target, double avoidDistance){
-        if (isObstacleBlockingPath(obs, target, 5)) return target;
+    public Pose genericAvoidPose(Pose obs, Pose target, double avoidDistance){
+        if (!isObstacleBlockingPath(obs, target, 5)) return target;
 
         Pose rPose = gps.getRobotPose();
 
@@ -92,6 +92,17 @@ public class CollisionManager {
 //                               target.getTheta());
 
         return pose;
+    }
+
+    public boolean genericAvoid(Pose target){
+        for (Pose ob : robot.sonar.detectObstacles(gps.getRobotPose(), 70)) {
+            target = genericAvoidPose(ob, target, 18);
+        }
+
+        if(move.goToPose(target, 0.3, 2))
+            return genericAvoid(target);
+
+        return true;
     }
 
     /**

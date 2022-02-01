@@ -252,6 +252,27 @@ public class MovementManager {
     }
 
     /**
+     * Returns true if the robot is at the target Pose within the given error
+     * @param target The desired location
+     * @param error The radius around the target pose
+     * @return true (at the point) / false (not at point)
+     */
+    public boolean withinTarget(Pose target, double error){
+        Pose currentPose = gps.getRobotPose();
+
+        // Field relative triangle
+        double deltaX = target.x - currentPose.getX();
+        double deltaY = target.y - currentPose.getY();
+
+        double distance = Math.hypot(deltaX, deltaY);
+
+        if (distance <= error)
+            return true;
+        return false;
+    }
+
+
+    /**
      * Make the robot drive towards a certain point relative to the field.
      * This works best as the condition of a while loop because it returns true/false.
      * @param x X coordinate relative to the starting point of the robot.
@@ -322,8 +343,13 @@ public class MovementManager {
      * @return True if the robot is moving. False if the robot has reached the point.
      */
     public boolean goToPose(double x, double y, int degrees, double p, double error){
-        return goToPoint(x,y,powerToAngle(degrees, error) * 0.75d,p,error);
+        return goToPoint(x,y,powerToAngle(degrees, error) * defaultAnglePower,p,error); // defaultAnglePower may need to be replace with 0.75d
     }
+
+    public boolean goToPose(Pose pose, double p, double error){
+        return goToPose(pose.x, pose.y, (int) pose.getTheta(), p, error);
+    }
+
 
     /**
      * Get the amount of power needed to rotate the robot towards an angle.

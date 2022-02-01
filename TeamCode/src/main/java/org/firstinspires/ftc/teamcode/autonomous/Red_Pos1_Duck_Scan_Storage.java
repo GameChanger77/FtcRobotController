@@ -34,9 +34,16 @@ public class Red_Pos1_Duck_Scan_Storage extends LinearOpMode {
         // 34 inches away (kinda)
 
         // Duck Spinner
-        long finalTime = System.currentTimeMillis() + 10_000;
-        while(move.goToPose(10, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
-        while(move.goToPose(10, 9.7, 0, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
+        long finalTime = System.currentTimeMillis() + 7_000;
+        while(move.goToPose(7, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
+
+        if (!move.withinTarget(new Pose(7, 15, 0), 1)){ // Reset the x pos if needed
+            Pose currentPose = gps.getRobotPose();
+            gps.overridePosition(new Pose(7, currentPose.y, currentPose.theta));
+        }
+
+        finalTime = System.currentTimeMillis() + 7_000;
+        while(move.goToPose(8, 9.7, 0, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
 
         robot.chassis.stop();
 
