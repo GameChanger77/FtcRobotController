@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
@@ -21,7 +20,7 @@ public class DriverControlRed extends OpMode {
     Pose pose;
 
     double power = .25d;
-    int alignAngle = 0;
+    int alignAngle = 0, level = 4;
 
     // Settings
     boolean fieldDrive = true;
@@ -41,19 +40,19 @@ public class DriverControlRed extends OpMode {
     @Override
     public void loop() {
         pose = gps.getRobotPose(); // Get the robot's X, Y, 0
+        autoLevel();
         autoAlign();
         drive();
 
         // Non-Driving functions
-        robot.elevator.lift(gamepad2.left_trigger - gamepad2.right_trigger);
         if (gamepad2.x) robot.elevator.pickup();
-        if (gamepad2.b) robot.elevator.level();
+        if (gamepad2.b) robot.elevator.hold();
 
         robot.elevator.intake(gamepad2.left_bumper ? -1 :
                 gamepad2.right_bumper ? 1 : 0);
 
         robot.spinner.print(telemetry);
-        telemetry.addData("/> Elevator", robot.elevator.lift.getCurrentPosition());
+        telemetry.addData("/> Elevator", robot.elevator.getLiftPos());
 
         robot.spinner.print(telemetry);
         if (gamepad1.y || gamepad2.y) robot.spinner.runAtRPS(-1); //  Duck spinner test
@@ -68,6 +67,32 @@ public class DriverControlRed extends OpMode {
             gps.overridePosition(new Pose(0,0, robot.gyro.getHeading()));
 
         // telemetry.update();
+    }
+
+    void autoLevel(){ // Automatically go to each level and pickup based on the dpad arrows
+        if (gamepad2.dpad_down)  level = 0; // Pickup / Intake
+        if (gamepad2.dpad_right) level = 1; // Level 1
+        if (gamepad2.dpad_left)  level = 2; // Level 2
+        if (gamepad2.dpad_up)    level = 3; // Level 3
+        if (gamepad2.a)          level = 4; // Manual override
+
+        switch (level){
+            case 0: // Pick up block
+                if (!robot.elevator.pickup_block()) level = -1;
+                break;
+            case 1: // level 1
+                if (!robot.elevator.level1()) level = -1;
+                break;
+            case 2: // level 2
+                if (!robot.elevator.level2()) level = -1;
+                break;
+            case 3: // level 3
+                if (!robot.elevator.level3()) level = -1;
+                break;
+            case 4: // manual control override
+                robot.elevator.lift(gamepad2.left_trigger - gamepad2.right_trigger);
+                break;
+        }
     }
 
     void autoAlign(){

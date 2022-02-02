@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
@@ -49,13 +48,14 @@ public class SingleDrive extends OpMode {
         // Non-Driving functions
         robot.elevator.lift(gamepad1.left_trigger - gamepad1.right_trigger);
         if (gamepad1.x) robot.elevator.pickup();
-        if (gamepad1.b) robot.elevator.level();
+        if (gamepad1.b) robot.elevator.hold();
+        if (gamepad1.a || gamepad1.dpad_down) robot.elevator.pickup_block();
 
         robot.elevator.intake(gamepad1.left_bumper ? -1 :
                 gamepad1.right_bumper ? 1 : 0);
 
         robot.spinner.print(telemetry);
-        telemetry.addData("/> Elevator", robot.elevator.lift.getCurrentPosition());
+        telemetry.addData("/> Elevator", robot.elevator.getLiftPos());
 
         if (gamepad1.y) robot.spinner.runAtRPS(1.5);
         else robot.spinner.runAtRPS(0);

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.odometry.CollisionManager;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
 import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
@@ -47,7 +46,7 @@ public class DriverControlBackup extends OpMode {
         // Non-Driving functions
         robot.elevator.lift(gamepad1.left_trigger - gamepad1.right_trigger);
         if (gamepad1.x) robot.elevator.pickup();
-        if (gamepad1.b) robot.elevator.level();
+        if (gamepad1.b) robot.elevator.hold();
 
         robot.elevator.intake(gamepad1.left_bumper ? -1 :
                 gamepad1.right_bumper ? 1 : 0);
