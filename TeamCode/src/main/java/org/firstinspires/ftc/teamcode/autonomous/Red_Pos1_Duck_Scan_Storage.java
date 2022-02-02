@@ -22,6 +22,8 @@ public class Red_Pos1_Duck_Scan_Storage extends LinearOpMode {
     Thread gpsThread = new Thread(gps);
     MovementManager move = new MovementManager(robot, gt, gps, telemetry);
 
+    Paths paths = new Paths(move, this, telemetry, robot, gps);
+
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
@@ -34,26 +36,7 @@ public class Red_Pos1_Duck_Scan_Storage extends LinearOpMode {
         // 34 inches away (kinda)
 
         // Duck Spinner
-        long finalTime = System.currentTimeMillis() + 7_000;
-        while(move.goToPose(10, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
-
-        if (!move.withinTarget(new Pose(10, 15, 0), 1)){ // Reset the x pos if needed
-            Pose currentPose = gps.getRobotPose();
-            gps.overridePosition(new Pose(10, currentPose.y, currentPose.theta));
-        }
-
-        finalTime = System.currentTimeMillis() + 7_000;
-        while(move.goToPose(10, 9.7, 0, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
-
-        robot.chassis.stop();
-
-        finalTime = System.currentTimeMillis() + 10_000;
-        while (System.currentTimeMillis() <= finalTime){
-            robot.spinner.runAtRPS(-1);
-            robot.spinner.print(telemetry);
-        }
-
-        robot.spinner.spinner.setPower(0);
+        paths.spinCarouselBlue();
 
         // Scan barcode
         move.doTimeOut = true;
@@ -96,13 +79,11 @@ public class Red_Pos1_Duck_Scan_Storage extends LinearOpMode {
         telemetry.update();
         sleep(5_000);
 
+        // Place in correct level
+        paths.placeBlock(level);
+
         // Park
-        while (move.goToPose(10, 20, 0, 0.3, 1) && opModeIsActive()){}
-        move.finalTime = System.currentTimeMillis() + 5_000;
-        while (move.goToPose(10, 27, 0.2, 1, 0, 0.25) && opModeIsActive()){
-            telemetry.update();
-        }
-        sleep(3000);
+        paths.parkInStorageBlue();
 
         robot.chassis.stop();
         gps.stop();
