@@ -45,7 +45,7 @@ public class DriverControlBlue extends OpMode {
         drive();
 
         // Non-Driving functions
-        robot.elevator.lift(gamepad2.left_trigger - gamepad2.right_trigger);
+//        robot.elevator.lift(gamepad2.left_trigger - gamepad2.right_trigger);
         if (gamepad2.x) robot.elevator.pickup();
         if (gamepad2.b) robot.elevator.hold();
 
