@@ -45,12 +45,12 @@ public class DriverControlBlue extends OpMode {
         drive();
 
         // Non-Driving functions
-        robot.elevator.lift(gamepad1.left_trigger - gamepad1.right_trigger);
-        if (gamepad1.x) robot.elevator.pickup();
-        if (gamepad1.b) robot.elevator.level();
+        robot.elevator.lift(gamepad2.left_trigger - gamepad2.right_trigger);
+        if (gamepad2.x) robot.elevator.pickup();
+        if (gamepad2.b) robot.elevator.level();
 
-        robot.elevator.intake(gamepad1.left_bumper ? -1 :
-                gamepad1.right_bumper ? 1 : 0);
+        robot.elevator.intake(gamepad2.left_bumper ? -1 :
+                gamepad2.right_bumper ? 1 : 0);
 
         robot.spinner.print(telemetry);
         telemetry.addData("/> Elevator", robot.elevator.lift.getCurrentPosition());

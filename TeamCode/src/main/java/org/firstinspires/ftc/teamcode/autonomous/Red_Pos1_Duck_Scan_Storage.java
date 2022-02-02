@@ -35,15 +35,15 @@ public class Red_Pos1_Duck_Scan_Storage extends LinearOpMode {
 
         // Duck Spinner
         long finalTime = System.currentTimeMillis() + 7_000;
-        while(move.goToPose(7, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
+        while(move.goToPose(10, 15, 0, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
 
-        if (!move.withinTarget(new Pose(7, 15, 0), 1)){ // Reset the x pos if needed
+        if (!move.withinTarget(new Pose(10, 15, 0), 1)){ // Reset the x pos if needed
             Pose currentPose = gps.getRobotPose();
-            gps.overridePosition(new Pose(7, currentPose.y, currentPose.theta));
+            gps.overridePosition(new Pose(10, currentPose.y, currentPose.theta));
         }
 
         finalTime = System.currentTimeMillis() + 7_000;
-        while(move.goToPose(8, 9.7, 0, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
+        while(move.goToPose(10, 9.7, 0, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
 
         robot.chassis.stop();
 
@@ -61,30 +61,40 @@ public class Red_Pos1_Duck_Scan_Storage extends LinearOpMode {
         int level = 1; // 1,2, and 3
         double threshold = 34;
 
+        move.defaultAnglePower = 1 / 0.2 * .5;
         move.finalTime = System.currentTimeMillis() + 3_000;
-        while (move.goToPose(35, 20, 0, 0.2, 1)){
-            telemetry.addData("/> Distance",
-                    robot.sonar.front.getDistance(DistanceUnit.INCH));
+        while (move.goToPose(35, 10, 0, 0.2, 1)){
+            telemetry.addData("/> Distance", robot.sonar.front.getDistance(DistanceUnit.INCH));
             telemetry.update();
             if (robot.sonar.front.getDistance(DistanceUnit.INCH) <= threshold) {
                 level = 2;
                 break;
             }
         }
-        move.finalTime = System.currentTimeMillis() + 3_000;
-        while (move.goToPose(44, 20, 0, 0.2, 1)){
-            telemetry.addData("/> Distance",
-                    robot.sonar.front.getDistance(DistanceUnit.INCH));
-            telemetry.update();
-            if (robot.sonar.front.getDistance(DistanceUnit.INCH) <= threshold) {
-                level = 3;
-                break;
+
+        telemetry.addData("/> ", "MIDDLE SCANNED");
+        telemetry.update();
+
+        if (level != 2) {
+            move.finalTime = System.currentTimeMillis() + 3_000;
+            while (move.goToPose(44, 10, 0, 0.2, 1)) {
+                telemetry.addData("/> Distance", robot.sonar.front.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                if (robot.sonar.front.getDistance(DistanceUnit.INCH) <= threshold) {
+                    level = 3;
+                    break;
+                }
             }
         }
 
         telemetry.addData("/> LEVEL", level);
         telemetry.update();
-        sleep(10_000);
+        sleep(1000);
+        while (move.goToPose(60, 10, 0, 0.2, 1)){ telemetry.update(); }
+
+        telemetry.addData("/> LEVEL", level);
+        telemetry.update();
+        sleep(5_000);
 
         // Park
         while (move.goToPose(10, 20, 0, 0.3, 1) && opModeIsActive()){}

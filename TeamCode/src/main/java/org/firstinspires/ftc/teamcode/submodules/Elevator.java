@@ -35,11 +35,20 @@ public class Elevator {
         angle.setPosition(pickup);
     }
 
+    public void up() { angle.setPosition(0); }
+
     public void intake(double power){
         intake.setPower(power);
     }
 
     public void lift(double power){
         lift.setPower(power);
+        if (getLiftPos() > 3000 && getLiftPos() < 6705)
+            level();
     }
+
+    public int getLiftPos(){
+        return lift.getCurrentPosition() * -1;
+    }
+
 }
