@@ -18,9 +18,9 @@ public class Elevator {
                   defaultLiftPower = -0.5; // This might need to be positive if the lift motor goes the wrong way
 
     public int pickupPos = 837,    // Actual mostly correct value for pickup
-               level1Pos = 2_000,  // Test value for level 1
-               level2Pos = 3_982,  // Actual mostly correct value for level 2
-               level3Pos = 8_000;  // test value for the level 3
+               level1Pos = 0,  // Test value for level 1
+               level2Pos = 3_544,  // Actual mostly correct value for level 2
+               level3Pos = 7_997;  // test value for the level 3
 
     /**
      * Initializes the lift, angle, and intake hardware devices
