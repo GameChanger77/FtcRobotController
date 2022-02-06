@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.odometry.MovementManager;
@@ -77,7 +76,7 @@ public class Paths {
         robot.chassis.stop();
 
         // Spin the carousel
-        finalTime = System.currentTimeMillis() + 10_000;
+        finalTime = System.currentTimeMillis() + 5_000;
         while (System.currentTimeMillis() <= finalTime){
             robot.spinner.runAtRPS(-1.25);
             robot.spinner.print(telemetry);

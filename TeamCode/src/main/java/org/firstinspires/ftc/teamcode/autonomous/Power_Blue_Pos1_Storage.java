@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.GlobalTelemetry;
@@ -21,20 +20,24 @@ public class Power_Blue_Pos1_Storage extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        move.fieldDrive(1, 0.6, move.powerToAngle(0, 1), 0.3);
-        sleep(3000);
-        move.fieldDrive(1, 0, move.powerToAngle(0, 1), 0.3);
+        move.fieldDrive(1, 1, move.powerToAngle(0, 1), 0.3);
         sleep(2000);
-        robot.chassis.stop();
         long finalTime = System.currentTimeMillis() + 5000;
         while (opModeIsActive() && System.currentTimeMillis() <= finalTime){
             robot.chassis.move(0,0,move.powerToAngle(90,1) * 1.25, 0.25);
         }
-        move.fieldDrive(0, -1, 0, 0.2);
-        sleep(1500);
+        move.fieldDrive(1, .5,0, 0.3);
+        sleep(2000);
         robot.chassis.stop();
+        move.fieldDrive(0, -1, 0, 0.2);
+        sleep(2000);
+        robot.chassis.stop();
+//
+//        robot.spinner.spinner.setPower(0.20);
+//        sleep(6000);
+//        robot.spinner.spinner.setPower(0);
 
-        robot.spinner.spinner.setPower(0.20);
+        robot.spinner.runAtRPS(1.5);
         sleep(6000);
         robot.spinner.spinner.setPower(0);
 

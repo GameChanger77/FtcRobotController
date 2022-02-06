@@ -47,6 +47,7 @@ public class DriverControlRed extends OpMode {
         // Non-Driving functions
         if (gamepad2.x) robot.elevator.pickup();
         if (gamepad2.b) robot.elevator.hold();
+        // if (gamepad2.a) robot.elevator.pickup_block();
 
         robot.elevator.intake(gamepad2.left_bumper ? -1 :
                 gamepad2.right_bumper ? 1 : 0);
@@ -78,16 +79,16 @@ public class DriverControlRed extends OpMode {
 
         switch (level){
             case 0: // Pick up block
-                if (!robot.elevator.pickup_block()) level = -1;
+                if (!robot.elevator.pickup_block());
                 break;
             case 1: // level 1
-                if (!robot.elevator.level1()) level = -1;
+                if (!robot.elevator.level1());
                 break;
             case 2: // level 2
-                if (!robot.elevator.level2()) level = -1;
+                if (!robot.elevator.level2());
                 break;
             case 3: // level 3
-                if (!robot.elevator.level3()) level = -1;
+                if (!robot.elevator.level3());
                 break;
             case 4: // manual control override
                 robot.elevator.lift(gamepad2.left_trigger - gamepad2.right_trigger);
@@ -133,8 +134,8 @@ public class DriverControlRed extends OpMode {
     }
 
     void drive(){
-        power = .3d; // Set the chassis speed
-        if(gamepad1.right_trigger > .3)
+        power = .25d; // Set the chassis speed
+        if(gamepad1.right_trigger > .25)
             power = gamepad1.right_trigger * (trainingWheels ? 0.3 : 1);
 
         if (fieldDrive) // Make the chassis move relative to the field.

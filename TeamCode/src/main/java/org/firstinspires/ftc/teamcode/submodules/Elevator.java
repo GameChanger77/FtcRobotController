@@ -15,12 +15,13 @@ public class Elevator {
     // Configuration variables
     public double pickup = 0.5,            // The angle servo's position for intake / pickup
                   hold = 0.2,              // The angle servo's position for holding
-                  defaultLiftPower = -0.5; // This might need to be positive if the lift motor goes the wrong way
+                  defaultLiftPower = 0.5; // This might need to be positive if the lift motor goes the wrong way
 
-    public int pickupPos = 837,    // Actual mostly correct value for pickup
+    public int pickupPos = 0,    // Actual mostly correct value for pickup
                level1Pos = 0,  // Test value for level 1
                level2Pos = 3_544,  // Actual mostly correct value for level 2
-               level3Pos = 7_997;  // test value for the level 3
+               level3Pos = 7_547,  // test value for the level 3
+               error = 100; // +- error for target positions
 
     /**
      * Initializes the lift, angle, and intake hardware devices
@@ -48,7 +49,8 @@ public class Elevator {
             return true; // Lift is moving towards the target
         }
         else             // Lift has reached the target
-            pickup();    // Set angle servo to the pickup position
+            hold();    // Set angle servo to the pickup position
+        lift.setPower(0);
         return false;
     }
 
@@ -63,7 +65,8 @@ public class Elevator {
             return true; // Lift is moving towards the target
         }
         else             // Lift has reached the target
-            pickup();    // Set angle servo to the pickup position
+            hold();    // Set angle servo to the pickup position
+        lift.setPower(0);
         return false;
     }
 
@@ -78,7 +81,8 @@ public class Elevator {
             return true; // Lift is moving towards the target
         }
         else             // Lift has reached the target
-            pickup();    // Set angle servo to the pickup position
+            hold();    // Set angle servo to the pickup position
+        lift.setPower(0);
         return false;
     }
 
@@ -94,6 +98,7 @@ public class Elevator {
         }
         else             // Lift has reached the target
             pickup();    // Set angle servo to the pickup position
+        lift.setPower(0);
         return false;
     }
 
@@ -106,8 +111,12 @@ public class Elevator {
     public boolean lift(double power, int target){
         int dpos = target - getLiftPos();
 
-        if (dpos > 250 || dpos < -250)  // 250 is the amount of allowed error in the target pos
+        if (!(dpos > error || dpos < -error))  // 250 is the amount of allowed error in the target pos
+            return false;
+        if (target < getLiftPos())
             return lift(power);
+        if(target > getLiftPos())
+            return lift(-power);
         return false;
     }
 

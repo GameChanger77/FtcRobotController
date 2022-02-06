@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Autonomous(name="Blue%Pos2%Warehouse%Duck:no", group="Blue")
-public class Blue_Pos2_Warehouse extends LinearOpMode {
+@Autonomous(name="Blue%Pos2%Ware%Duck:no%Level1", group="Blue")
+public class Blue_Pos2_Warehouse_Level1 extends LinearOpMode {
 
     Pose startPose = Constants.pos2.getReversedX();
 
@@ -29,17 +29,31 @@ public class Blue_Pos2_Warehouse extends LinearOpMode {
         telemetry.addData("/> STATUS:", "INIT COMPLETE");
         waitForStart();
 
-        double finalTime = System.currentTimeMillis() + 5_000;
-        while (robot.elevator.level2() && System.currentTimeMillis() <= finalTime && opModeIsActive())
+        move.fieldDrive(1, 0, 0, 0.23);
+        sleep(2_500);
+
+        move.fieldDrive(0,1,0,0.23);
+        sleep(2_000);
+        robot.chassis.stop();
+        while(robot.elevator.level1() && opModeIsActive())
             continue;
 
-        finalTime = System.currentTimeMillis() + 3_000;
-        while (move.goToPose(-115, 1, 0, .3, 1) && System.currentTimeMillis() <= finalTime && opModeIsActive()){
-            telemetry.addData("X: ", gps.getRobotPose().getX());
-            telemetry.addData("Y: ", gps.getRobotPose().getY());
-            telemetry.update();
-        }
 
+        sleep(1000);
+        robot.elevator.intake(1);
+        sleep(1_500);
+        robot.elevator.intake(0);
+        sleep(1000);
+
+        // park
+        move.fieldDrive(0,-1,0,0.23);
+        sleep(2_000);
+        robot.chassis.stop();
+        while(robot.elevator.level2() && opModeIsActive())
+            continue;
+        move.fieldDrive(-1,0,0,0.2);
+        sleep(10_000);
+        robot.chassis.stop();
 
         robot.chassis.stop();
         gps.stop();

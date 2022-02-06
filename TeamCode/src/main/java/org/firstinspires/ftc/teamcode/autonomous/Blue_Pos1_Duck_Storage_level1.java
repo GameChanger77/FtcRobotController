@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.odometry.OdometryBase;
 import org.firstinspires.ftc.teamcode.odometry.Pose;
 import org.firstinspires.ftc.teamcode.submodules.RobotHardware;
 
-@Autonomous(name="Blue%Pos1%Storage%Duck:yes", group="Blue")
-public class Blue_Pos1_Duck_Storage extends LinearOpMode {
+@Autonomous(name="Blue%Pos1%Storage%Duck:yes%Level1", group="Blue")
+public class Blue_Pos1_Duck_Storage_level1 extends LinearOpMode {
 
     Pose startPose = new Pose(-24, 0,0); // Constants.pos1.getReversedX();
 
@@ -34,9 +34,7 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
         while(move.goToPose(-10, 17, 90, 0.3, 1) && opModeIsActive() && System.currentTimeMillis() <= finalTime){telemetry.update();}
         finalTime = System.currentTimeMillis() + 5_000;
         while(move.goToPose(-10, 15, 90, 0.22, 0.5) && opModeIsActive() && System.currentTimeMillis() <= finalTime){ telemetry.update();}
-//        move.threePointArc(new Waypoint(-8, 20, 0, 2, 0.3),
-//                           new Waypoint(-2, 15, 90, 0.5, 0.22),
-//                           15_000L, this);
+
         robot.chassis.stop();
 
         move.fieldDrive(0,-1,0,.22);
@@ -51,15 +49,9 @@ public class Blue_Pos1_Duck_Storage extends LinearOpMode {
 
         robot.spinner.spinner.setPower(0);
 
-//        // Park
-//        move.doTimeOut = true;
-//        move.finalTime = System.currentTimeMillis() + 5_000;
-//        while (move.goToPose(-10, 20, 0, 0.3, 1) && opModeIsActive()){}
-//        move.finalTime = System.currentTimeMillis() + 5_000;
-//        while (move.goToPose(-10, 30, 0.2, 1, 0, 0.25) && opModeIsActive()){
-//            telemetry.update();
-//        }
-//        sleep(3000);
+        finalTime = System.currentTimeMillis() + 5_000;
+        while (move.goToPose(-10, 15, 0.22, 1,0,1) && System.currentTimeMillis() <= finalTime)
+            continue;
 
         move.fieldDrive(0,1,0,.22);
         sleep(4_000);

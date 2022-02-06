@@ -34,8 +34,46 @@ public class Red_Pos1_Duck_Storage_level3 extends LinearOpMode {
         waitForStart();
 
         paths.spinCarouselBlue();
-        paths.placeBlock(3);
-        paths.parkInStorageBlue();
+
+//        move.defaultAnglePower = 0.75;
+//        double finalTime = System.currentTimeMillis() + 6_000;
+//        while (move.goToPose(gps.getRobotPose().x, gps.getRobotPose().y, 180, 0.23, 1) && System.currentTimeMillis() <= finalTime && opModeIsActive())
+//            continue;
+//
+//        move.defaultAnglePower = 0.75;
+//        finalTime = System.currentTimeMillis() + 6_000;
+//        while (move.goToPose(55, 23, 180, 0.23, 1) && System.currentTimeMillis() <= finalTime && opModeIsActive())
+//            continue;
+//
+//
+//        finalTime = System.currentTimeMillis() + 3_000;
+//        while (move.goToPose(55, 23, 0, 0.23, 1) && System.currentTimeMillis() <= finalTime && opModeIsActive())
+//            continue;
+
+        double finalTime = System.currentTimeMillis() + 1_500;
+        while (System.currentTimeMillis() <= finalTime)
+            move.fieldDrive(0, 1, move.powerToAngle(0, 1), 0.23);
+
+
+        finalTime = System.currentTimeMillis() + 7_500;
+        while (System.currentTimeMillis() <= finalTime)
+            move.fieldDrive(1, 0, move.powerToAngle(0, 1), 0.23);
+
+        robot.chassis.stop();
+
+        while (robot.elevator.level1() && opModeIsActive())
+            continue;
+
+        sleep(1000);
+
+        robot.elevator.intake(1);
+        sleep(1_500);
+        robot.elevator.intake(0);
+
+
+        finalTime = System.currentTimeMillis() + 7_500;
+        while (System.currentTimeMillis() <= finalTime)
+            move.fieldDrive(-1, 0, move.powerToAngle(0, 1), 0.23);
 
         robot.chassis.stop();
         gps.stop();
