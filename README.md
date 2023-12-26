@@ -2,6 +2,8 @@
 
 This repository contains the public code for Team 6189: High Voltage, for the FIRST Tech Challenge 2021-2022 competition. This code contains all the functionallity of our robot, which includes odometry, field drive, and other automatic driver control enhancements. Other than the base SDK used for running the robot code on the REV Control hub, which came from the froked repository, nearly all the custom code was written by Jacob Schulmeister, the lead software programmer this year (2021-2022 academic year). This code is not meant to be used or copied by any team but is available for other teams to look at as an example. 
 
+The main code is here: https://github.com/GameChanger77/FtcRobotController/tree/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode
+
 ## Downloading the Project
 If you are an Android Studio programmer, there are several ways to download this repo.  Note that if you use the Blocks or OnBot Java Tool to program your robot, then you do not need to download this repository.
 
